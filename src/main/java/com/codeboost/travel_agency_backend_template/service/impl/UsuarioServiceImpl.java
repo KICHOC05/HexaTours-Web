@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -30,13 +31,14 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     @Transactional
     public Usuario registrar(String nombre, String email, String password) {
-        if (usuarioRepository.existsByEmail(email))
-            throw new IllegalArgumentException("Correo ya registrado: " + email);
+        String normalizedEmail = normalizeEmail(email);
+        if (usuarioRepository.existsByEmail(normalizedEmail))
+            throw new IllegalArgumentException("Correo ya registrado: " + normalizedEmail);
         Usuario u = Usuario.builder()
-                .nombre(nombre).email(email)
+                .nombre(nombre).email(normalizedEmail)
                 .password(passwordEncoder.encode(password))
                 .build();
-        log.info("Nuevo usuario: {}", email);
+        log.info("Nuevo usuario: {}", normalizedEmail);
         return usuarioRepository.save(u);
     }
 
@@ -47,12 +49,12 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override @Transactional(readOnly = true)
     public Optional<Usuario> buscarPorEmail(String email) {
-        return usuarioRepository.findByEmail(email);
+        return usuarioRepository.findByEmail(normalizeEmail(email));
     }
 
     @Override @Transactional(readOnly = true)
     public boolean existeEmail(String email) {
-        return usuarioRepository.existsByEmail(email);
+        return usuarioRepository.existsByEmail(normalizeEmail(email));
     }
 
     @Override @Transactional(readOnly = true)
@@ -64,13 +66,15 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Transactional
     public Usuario actualizar(Long id, String nombre, String email,
                               String rol, boolean activo) {
+        String normalizedEmail = normalizeEmail(email);
         Usuario u = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado: " + id));
         // Si cambia email, verificar que no exista
-        if (!u.getEmail().equals(email) && usuarioRepository.existsByEmail(email))
+        if (!u.getEmail().equals(normalizedEmail)
+                && usuarioRepository.existsByEmail(normalizedEmail))
             throw new IllegalArgumentException("El correo ya está en uso.");
         u.setNombre(nombre);
-        u.setEmail(email);
+        u.setEmail(normalizedEmail);
         u.setRol(rol);
         u.setActivo(activo);
         return usuarioRepository.save(u);
@@ -109,5 +113,9 @@ public class UsuarioServiceImpl implements UsuarioService {
             throw new RuntimeException("Usuario no encontrado: " + id);
         usuarioRepository.deleteById(id);
         log.info("Usuario eliminado ID: {}", id);
+    }
+
+    private String normalizeEmail(String email) {
+        return email == null ? "" : email.strip().toLowerCase(Locale.ROOT);
     }
 }

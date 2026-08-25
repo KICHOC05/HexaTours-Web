@@ -1,0 +1,964 @@
+<!doctype html>
+<html
+        lang="es"
+        class="scroll-smooth"
+        xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0">
+
+    <meta
+            name="description"
+            content="HexaTours: agencia de viajes en Monterrey. Diseñamos experiencias, paquetes, circuitos y viajes grupales a tu medida.">
+
+    <meta
+            name="theme-color"
+            content="#011b48">
+
+    <title>
+        Hexa Tours | Agencia de Viajes
+    </title>
+
+    <link
+            rel="preconnect"
+            href="https://fonts.googleapis.com">
+
+    <link
+            rel="preconnect"
+            href="https://fonts.gstatic.com"
+            crossorigin>
+
+    <link
+            href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@300;400;500;600&family=Italiana&family=Montserrat:wght@400;500;600;700&display=swap"
+            rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ink: '#011b48',
+                        deep: '#011b48',
+                        sand: '#f5f8f8',
+                        cream: '#ffffff',
+                        coral: '#f57f1e',
+                        sky: '#12aeb1'
+                    },
+                    fontFamily: {
+                        display: ['Italiana', 'serif'],
+                        sans: ['DM Sans', 'sans-serif']
+                    }
+                }
+            }
+        };
+    </script>
+
+    <link
+            rel="stylesheet"
+            th:href="@{/assets/css/styles.css}"
+            href="/assets/css/styles.css">
+</head>
+
+<body class="bg-cream font-sans text-deep antialiased">
+
+<a
+        href="#contenido"
+        class="skip-link">
+
+    Ir al contenido
+</a>
+
+<th:block th:replace="~{fragments/header :: header}">
+</th:block>
+
+<main id="contenido">
+
+    <!-- HERO -->
+
+    <section
+            id="inicio"
+            class="hero relative flex min-h-[100svh] items-end overflow-hidden text-white">
+
+        <video
+                class="hero-video"
+                data-hero-video
+                autoplay
+                muted
+                loop
+                playsinline
+                webkit-playsinline
+                preload="auto"
+                disablepictureinpicture
+                th:poster="@{/assets/images/hero-new.jpg}"
+                poster="/assets/images/hero-new.jpg"
+                aria-hidden="true">
+
+            <source
+                    media="(max-width: 767px)"
+                    th:src="@{/assets/videos/hexatours-hero-mobile2.mp4}"
+                    src="/assets/videos/hexatours-hero-mobile2.mp4"
+                    type="video/mp4">
+
+            <source
+                    th:src="@{/assets/videos/hexatours-hero-desktop.mp4}"
+                    src="/assets/videos/hexatours-hero-desktop.mp4"
+                    type="video/mp4">
+        </video>
+
+        <div
+                class="hero-overlay absolute inset-0"
+                aria-hidden="true">
+        </div>
+
+        <div class="container-shell relative z-10 pb-10 pt-32 sm:pb-14 lg:pb-16">
+
+            <div class="grid items-end gap-10 lg:grid-cols-[1fr_.45fr]">
+
+                <div class="max-w-3xl reveal">
+
+                    <p class="eyebrow text-white/80">
+                        Agencia de viajes · Monterrey
+                    </p>
+
+                    <h1 class="hero-title mt-4">
+                        <span class="block">HEXA</span>
+                        <span class="block">TOURS</span>
+                    </h1>
+
+                    <p class="hero-slogan mt-4">
+                        Creamos experiencias que trascienden fronteras
+                    </p>
+                </div>
+
+                <div class="flex items-end justify-between gap-5 border-t border-white/40 pt-5 lg:block lg:border-l lg:border-t-0 lg:pb-2 lg:pl-8 reveal reveal-delay">
+
+                    <p class="max-w-[17rem] text-sm leading-relaxed text-white/75">
+                        Viajes hechos a la medida, con asesoría cercana
+                        antes, durante y después.
+                    </p>
+
+                    <a
+                            href="#viajes"
+                            class="round-arrow mt-7"
+                            aria-label="Descubrir viajes">
+
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M5 12h13M13 7l5 5-5 5"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="absolute bottom-0 right-0 hidden border-l border-t border-white/30 px-7 py-4 text-[10px] uppercase tracking-[.25em] text-white/70 md:block">
+            América · Europa · Asia · África · Oceanía
+        </div>
+    </section>
+
+    <!-- NOSOTROS -->
+
+    <section
+            id="nosotros"
+            class="section-pad overflow-hidden">
+
+        <div class="container-shell">
+
+            <div class="grid gap-12 lg:grid-cols-2 lg:gap-20">
+
+                <div class="relative min-h-[500px] overflow-hidden reveal">
+
+                    <img
+                            th:src="@{/assets/images/foto-nosotros.jpg}"
+                            src="/assets/images/foto-nosotros.jpg"
+                            alt="Nosotros"
+                            class="absolute inset-0 h-full w-full object-cover"
+                            loading="lazy">
+                </div>
+
+                <div class="flex flex-col justify-center reveal">
+
+                    <h2 class="about-title mt-5">
+                        Convertimos una idea en un viaje
+                        <span class="italic text-coral">
+                            bien planeado.
+                        </span>
+                    </h2>
+
+                    <div class="mt-8 space-y-5 text-base leading-relaxed text-deep/70">
+
+                        <p>
+                            Porque sabemos que un gran viaje comienza mucho
+                            antes de llegar a tu destino. Comienza con la
+                            ilusión de elegir a dónde ir, con la emoción de
+                            hacer planes y con la tranquilidad de saber que
+                            cuentas con alguien que te acompaña durante el
+                            proceso.
+                        </p>
+                    </div>
+
+                    <a
+                            href="#contacto"
+                            class="text-link mt-8 w-fit">
+
+                        Platiquemos de tu viaje <span>↗</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BENEFICIOS -->
+
+    <section
+            class="bg-sand pb-16 pt-12 sm:pb-24 sm:pt-16"
+            aria-label="Beneficios">
+
+        <div class="container-shell">
+
+            <h2 class="benefits-title reveal">
+                ¿Por qué reservar con nosotros?
+            </h2>
+
+            <div class="benefit-cards">
+
+                <article
+                        class="benefit-card reveal"
+                        style="--delay:0ms">
+
+                    <div class="benefit-inner">
+
+                        <img
+                                th:src="@{/assets/images/japon-pagoda.jpg}"
+                                src="/assets/images/japon-pagoda.jpg"
+                                alt=""
+                                class="benefit-img"
+                                loading="lazy">
+
+                        <span class="benefit-overlay"></span>
+                        <span class="benefit-num">01</span>
+
+                        <div class="benefit-body">
+
+                            <h3 class="benefit-card-title">
+                                Mejor valor
+                            </h3>
+
+                            <p class="benefit-text">
+                                Tarifas competitivas y opciones que cuidan
+                                tu presupuesto.
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <article
+                        class="benefit-card reveal"
+                        style="--delay:100ms">
+
+                    <div class="benefit-inner">
+
+                        <img
+                                th:src="@{/assets/images/italia-paris.jpg}"
+                                src="/assets/images/italia-paris.jpg"
+                                alt=""
+                                class="benefit-img"
+                                loading="lazy">
+
+                        <span class="benefit-overlay"></span>
+                        <span class="benefit-num">02</span>
+
+                        <div class="benefit-body">
+
+                            <h3 class="benefit-card-title">
+                                Aliados confiables
+                            </h3>
+
+                            <p class="benefit-text">
+                                Proveedores de confianza establecidos en
+                                cada destino.
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <article
+                        class="benefit-card reveal"
+                        style="--delay:200ms">
+
+                    <div class="benefit-inner">
+
+                        <img
+                                th:src="@{/assets/images/egipto-jordania.jpg}"
+                                src="/assets/images/egipto-jordania.jpg"
+                                alt=""
+                                class="benefit-img"
+                                loading="lazy">
+
+                        <span class="benefit-overlay"></span>
+                        <span class="benefit-num">03</span>
+
+                        <div class="benefit-body">
+
+                            <h3 class="benefit-card-title">
+                                Asesoría cercana
+                            </h3>
+
+                            <p class="benefit-text">
+                                Asesoría personalizada de principio a fin.
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <article
+                        class="benefit-card reveal"
+                        style="--delay:300ms">
+
+                    <div class="benefit-inner">
+
+                        <img
+                                th:src="@{/assets/images/brasil-cristo-wiki.jpg}"
+                                src="/assets/images/brasil-cristo-wiki.jpg"
+                                alt=""
+                                class="benefit-img"
+                                loading="lazy">
+
+                        <span class="benefit-overlay"></span>
+                        <span class="benefit-num">04</span>
+
+                        <div class="benefit-body">
+
+                            <h3 class="benefit-card-title">
+                                Viajes a tu medida
+                            </h3>
+
+                            <p class="benefit-text">
+                                Experiencias diseñadas según tu estilo
+                                de viaje.
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICIOS -->
+
+    <section
+            id="servicios"
+            class="section-pad services-section overflow-hidden text-white">
+
+        <div class="container-shell">
+
+            <div class="mb-12 grid gap-6 lg:grid-cols-2 lg:items-end">
+
+                <div class="reveal">
+
+                    <p class="eyebrow text-white/90">
+                        Nuestros servicios
+                    </p>
+
+                    <h2 class="title-xl mt-5">
+                        Todo lo que tu viaje
+                        <span class="italic text-white">
+                            necesita.
+                        </span>
+                    </h2>
+                </div>
+
+                <p class="max-w-lg text-sm leading-relaxed text-white/60 lg:ml-auto lg:text-base">
+                    Soluciones completas o servicios individuales.
+                    Tú eliges el destino; nosotros conectamos las piezas.
+                </p>
+            </div>
+
+            <div class="services-carousel-wrap reveal">
+
+                <div
+                        class="services-carousel"
+                        id="services-carousel">
+
+                    <article
+                            class="service-card service-reveal"
+                            style="--delay:0ms">
+
+                        <img
+                                class="service-card-img"
+                                th:src="@{/assets/images/servicio-paquetes-de-viaje.jpg}"
+                                src="/assets/images/servicio-paquetes-de-viaje.jpg"
+                                alt="Paquetes de viaje"
+                                loading="lazy">
+
+                        <span class="service-card-overlay"></span>
+
+                        <div class="service-card-body">
+
+                            <h3 class="service-card-title">
+                                Paquetes de playa
+                            </h3>
+
+                            <p class="service-card-desc">
+                                Hoteles todo incluido cuidadosamente
+                                seleccionados para cada estilo y presupuesto.
+                            </p>
+                        </div>
+                    </article>
+
+                    <article
+                            class="service-card service-reveal"
+                            style="--delay:90ms">
+
+                        <img
+                                class="service-card-img"
+                                th:src="@{/assets/images/servicio-viajes-grupales.jpg}"
+                                src="/assets/images/servicio-viajes-grupales.jpg"
+                                alt="Viajes grupales"
+                                loading="lazy">
+
+                        <span class="service-card-overlay"></span>
+
+                        <div class="service-card-body">
+
+                            <h3 class="service-card-title">
+                                Viajes grupales
+                            </h3>
+
+                            <p class="service-card-desc">
+                                Fechas, destinos e itinerarios organizados
+                                para disfrutar la experiencia de viajar juntos.
+                            </p>
+                        </div>
+                    </article>
+
+                    <article
+                            class="service-card service-reveal"
+                            style="--delay:180ms">
+
+                        <img
+                                class="service-card-img"
+                                th:src="@{/assets/images/servicio-circuitos-nacionales-internacionales.jpg}"
+                                src="/assets/images/servicio-circuitos-nacionales-internacionales.jpg"
+                                alt="Circuitos"
+                                loading="lazy">
+
+                        <span class="service-card-overlay"></span>
+
+                        <div class="service-card-body">
+
+                            <h3 class="service-card-title">
+                                Circuitos
+                            </h3>
+
+                            <p class="service-card-desc">
+                                Rutas nacionales e internacionales listas
+                                para reservar.
+                            </p>
+                        </div>
+                    </article>
+
+                    <article
+                            class="service-card service-reveal"
+                            style="--delay:270ms">
+
+                        <img
+                                class="service-card-img"
+                                th:src="@{/assets/images/servicio-servicios-individuales.jpg}"
+                                src="/assets/images/servicio-servicios-individuales.jpg"
+                                alt="Servicios individuales"
+                                loading="lazy">
+
+                        <span class="service-card-overlay"></span>
+
+                        <div class="service-card-body">
+
+                            <h3 class="service-card-title">
+                                Servicios individuales
+                            </h3>
+
+                            <p class="service-card-desc">
+                                Hospedaje, traslados, tours, actividades,
+                                seguros de viaje y mucho más.
+                            </p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PAQUETES DINÁMICOS -->
+
+    <section
+            id="viajes"
+            class="section-pad overflow-hidden">
+
+        <div class="container-shell">
+
+            <div class="collection-head reveal">
+
+                <p class="eyebrow">
+                    Destinos destacados
+                </p>
+
+                <h2 class="collection-title mt-4">
+                    Experiencias seleccionadas
+                </h2>
+
+                <p class="collection-sub mt-5">
+                    Selecciona un destino para conocer sus detalles.
+                    Consulta las fechas y tarifas vigentes.
+                </p>
+            </div>
+
+            <div
+                    id="trips-grid"
+                    class="mt-14 grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3"
+                    aria-label="Colección de experiencias destacadas"
+                    aria-live="polite">
+
+                <article
+                        th:each="experiencia, estado : ${experiencias}"
+                        class="trip-card reveal"
+                        th:style="'--delay:' + ${estado.index * 100} + 'ms'">
+
+                    <button
+                            type="button"
+                            th:attr="
+                                data-trip-id=${experiencia.id},
+                                data-title=${experiencia.nombre},
+                                data-description=${experiencia.descripcion},
+                                data-price=${experiencia.precio},
+                                data-destination=${experiencia.destino},
+                                data-image=${experiencia.imagenUrl},
+                                aria-label=|Ver detalles de ${experiencia.nombre}|
+                            ">
+
+                        <span class="trip-image">
+
+                            <img
+                                    th:src="${experiencia.imagenUrl}"
+                                    th:alt="${experiencia.nombre}"
+                                    alt="Experiencia de viaje"
+                                    loading="lazy">
+
+                            <span class="trip-tag">
+                                Paquete de viaje
+                            </span>
+
+                            <span class="trip-view">
+                                Ver más <b>↗</b>
+                            </span>
+
+                            <span class="trip-caption">
+
+                                <strong th:text="${experiencia.nombre}">
+                                    Nombre del paquete
+                                </strong>
+
+                                <span
+                                        class="trip-sub"
+                                        th:text="${experiencia.destino}">
+                                    Destino
+                                </span>
+
+                                <span
+                                        class="trip-price"
+                                        th:text="${experiencia.precio != null
+                                            ? 'Desde $' + experiencia.precio + ' MXN'
+                                            : 'Consultar precio'}">
+
+                                    Consultar precio
+                                </span>
+                            </span>
+                        </span>
+                    </button>
+                </article>
+
+                <p
+                        th:if="${#lists.isEmpty(experiencias)}"
+                        class="col-span-full py-12 text-center text-deep/60">
+
+                    Próximamente publicaremos nuevas experiencias.
+                </p>
+            </div>
+
+            <div
+                    class="mobile-carousel-controls mt-6"
+                    aria-label="Controles del carrusel">
+
+                <div class="carousel-progress">
+
+                    <span
+                            id="trip-mobile-counter"
+                            class="carousel-counter"
+                            aria-live="polite">
+                        01 / 01
+                    </span>
+
+                    <div
+                            id="trip-dots"
+                            class="carousel-dots"
+                            aria-label="Seleccionar viaje">
+                    </div>
+                </div>
+
+                <div class="flex gap-2">
+
+                    <button
+                            id="trips-prev"
+                            class="carousel-arrow"
+                            type="button"
+                            aria-label="Ver viaje anterior">
+                        ←
+                    </button>
+
+                    <button
+                            id="trips-next"
+                            class="carousel-arrow"
+                            type="button"
+                            aria-label="Ver viaje siguiente">
+                        →
+                    </button>
+                </div>
+            </div>
+
+            <nav
+                    id="trips-pagination"
+                    class="trips-pagination mt-10"
+                    aria-label="Paginación de paquetes"
+                    hidden>
+
+                <p
+                        id="trips-page-status"
+                        class="trips-page-status"
+                        aria-live="polite">
+                </p>
+
+                <div
+                        id="trips-page-buttons"
+                        class="trips-page-buttons">
+                </div>
+            </nav>
+        </div>
+    </section>
+
+    <!-- CTA -->
+
+    <section class="escape-banner relative flex min-h-[75svh] items-center overflow-hidden bg-cover bg-center bg-fixed text-white">
+
+        <div class="absolute inset-0 bg-deep/55"></div>
+
+        <div class="container-shell relative z-10 py-24 text-center">
+
+            <h2 class="cta-title">
+                Tu próximo destino puede estar más cerca
+                <br>
+                de lo que
+                <span class="italic">
+                    te imaginas.
+                </span>
+            </h2>
+
+            <p class="cta-subtitle">
+                Nosotros te ayudamos a llegar.
+            </p>
+
+            <a
+                    href="#contacto"
+                    class="btn-light mt-10">
+
+                Quiero comenzar
+            </a>
+        </div>
+    </section>
+
+    <!-- PREGUNTAS -->
+
+    <section
+            id="preguntas"
+            class="section-pad bg-sand">
+
+        <div class="container-shell grid gap-10 lg:grid-cols-[.7fr_1.3fr] lg:gap-20">
+
+            <div class="reveal">
+
+                <p class="eyebrow">
+                    Preguntas frecuentes
+                </p>
+
+                <h2 class="title-lg mt-5">
+                    Antes de hacer
+                    <span class="italic text-coral">
+                        la maleta.
+                    </span>
+                </h2>
+
+                <p class="mt-6 max-w-sm text-sm leading-relaxed text-deep/60">
+                    Si tu pregunta no está aquí, escríbenos.
+                    Estamos para ayudarte.
+                </p>
+            </div>
+
+            <div class="faq-list">
+
+                <details>
+
+                    <summary>
+                        ¿Cuentan con Registro Nacional de Turismo?
+                        <span></span>
+                    </summary>
+
+                    <p>
+                        Sí, contamos con RNT vigente con el folio
+                        <strong>04190399b8c18</strong>.
+                    </p>
+                </details>
+
+                <details>
+
+                    <summary>
+                        ¿Puedo facturar mi viaje?
+                        <span></span>
+                    </summary>
+
+                    <p>
+                        Sí, facturamos todos los servicios.
+                    </p>
+                </details>
+
+                <details>
+
+                    <summary>
+                        ¿Por qué reservar con ustedes?
+                        <span></span>
+                    </summary>
+
+                    <p>
+                        Manejamos tarifas negociadas, asesoría personalizada
+                        y diseñamos cada itinerario de forma estratégica.
+                    </p>
+                </details>
+
+                <details>
+
+                    <summary>
+                        ¿Entregan confirmación de compra?
+                        <span></span>
+                    </summary>
+
+                    <p>
+                        Sí. Al reservar entregamos un recibo que detalla
+                        los servicios y las claves de reservación.
+                    </p>
+                </details>
+
+                <details>
+
+                    <summary>
+                        ¿Con cuánto tiempo debo reservar?
+                        <span></span>
+                    </summary>
+
+                    <p>
+                        Recomendamos reservar lo antes posible para obtener
+                        mejores tarifas y disponibilidad.
+                    </p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACTO -->
+
+    <section
+            id="contacto"
+            class="contact-section section-pad text-white">
+
+        <div class="container-shell grid gap-12 lg:grid-cols-[1fr_.85fr] lg:gap-20">
+
+            <div class="reveal">
+
+                <p class="eyebrow text-white/75">
+                    Hablemos
+                </p>
+
+                <h2 class="mt-5 max-w-3xl font-display text-[clamp(2.8rem,6.2vw,6rem)] leading-[.9] tracking-[-.04em]">
+
+                    Tu viaje empieza con una
+                    <span class="italic">
+                        conversación.
+                    </span>
+                </h2>
+
+                <p class="mt-7 max-w-md text-base font-light leading-relaxed text-white/80">
+                    Cuéntanos qué te emociona, cómo te gusta viajar y
+                    con quién quieres compartirlo.
+                </p>
+            </div>
+
+            <form
+                    id="contact-form"
+                    class="contact-form"
+                    novalidate>
+
+                <label>
+
+                    <span>
+                        Nombre
+                    </span>
+
+                    <input
+                            type="text"
+                            name="nombre"
+                            autocomplete="name"
+                            required>
+                </label>
+
+                <label>
+
+                    <span>
+                        Correo electrónico
+                    </span>
+
+                    <input
+                            type="email"
+                            name="correo"
+                            autocomplete="email">
+                </label>
+
+                <label>
+
+                    <span>
+                        ¿A dónde quieres viajar?
+                    </span>
+
+                    <textarea
+                            name="mensaje"
+                            rows="2"
+                            required>
+                    </textarea>
+                </label>
+
+                <button
+                        type="submit"
+                        class="btn-light w-full sm:w-fit">
+
+                    Enviar por WhatsApp <span>↗</span>
+                </button>
+
+                <p
+                        id="form-status"
+                        class="min-h-5 text-sm text-white/80"
+                        role="status">
+                </p>
+            </form>
+        </div>
+    </section>
+
+</main>
+
+<th:block th:replace="~{fragments/footer :: footer}">
+</th:block>
+
+<!-- MODAL -->
+
+<dialog
+        id="trip-modal"
+        class="trip-modal"
+        aria-labelledby="modal-title">
+
+    <button
+            class="modal-close"
+            type="button"
+            aria-label="Cerrar detalles">
+        ×
+    </button>
+
+    <div class="modal-layout">
+
+        <div class="modal-image-wrap">
+
+            <img
+                    id="modal-image"
+                    alt="">
+        </div>
+
+        <div class="modal-content">
+
+            <p class="eyebrow">
+                Paquete de viaje
+            </p>
+
+            <h2
+                    id="modal-title"
+                    class="mt-3 font-display text-4xl leading-none sm:text-5xl">
+            </h2>
+
+            <p
+                    id="modal-price"
+                    class="mt-4 text-sm uppercase tracking-[.18em] text-coral">
+            </p>
+
+            <dl class="mt-8 space-y-5">
+
+                <div>
+                    <dt>Destino</dt>
+                    <dd id="modal-countries"></dd>
+                </div>
+
+                <div>
+                    <dt>Ubicación</dt>
+                    <dd id="modal-cities"></dd>
+                </div>
+
+                <div>
+                    <dt>Descripción</dt>
+                    <dd id="modal-itinerary"></dd>
+                </div>
+            </dl>
+
+            <p class="mt-7 border-l-2 border-coral pl-4 text-sm text-deep/65">
+                Consulta con un asesor las fechas y tarifas vigentes.
+            </p>
+
+            <a
+                    id="modal-whatsapp"
+                    href="#"
+                    target="_blank"
+                    rel="noopener"
+                    class="btn-dark mt-8">
+
+                Consultar este viaje <span>↗</span>
+            </a>
+        </div>
+    </div>
+</dialog>
+
+<a
+        class="whatsapp-float"
+        href="https://wa.me/528134215892?text=Hola%20HexaTours,%20quiero%20información%20para%20mi%20próximo%20viaje."
+        target="_blank"
+        rel="noopener"
+        aria-label="Contactar a HexaTours por WhatsApp">
+
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+        <path d="M16.1 4a11.8 11.8 0 0 0-10 18.1L4.5 28l6-1.6A11.9 11.9 0 1 0 16.1 4Zm0 21.6c-1.9 0-3.7-.5-5.3-1.4l-.4-.2-3.5.9.9-3.4-.2-.4a9.6 9.6 0 1 1 8.5 4.5Zm5.3-7.2c-.3-.1-1.7-.8-1.9-.9-.3-.1-.5-.1-.7.2s-.7.9-.9 1.1c-.2.2-.3.2-.6.1a7.9 7.9 0 0 1-2.3-1.4 8.8 8.8 0 0 1-1.6-2c-.2-.3 0-.5.1-.6l.5-.6.3-.5c.1-.2 0-.4 0-.6l-.9-2.1c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.2-1.2 2.9s1.2 3.3 1.4 3.5c.2.2 2.4 3.7 5.9 5.2.8.4 1.5.6 2 .7.8.3 1.6.2 2.2.1.7-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3Z"/>
+    </svg>
+</a>
+
+<script
+        th:src="@{/assets/js/app.js}"
+        src="/assets/js/app.js"
+        defer>
+</script>
+
+</body>
+</html>

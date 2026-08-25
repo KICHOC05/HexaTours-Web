@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -31,19 +32,23 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email)
             throws UsernameNotFoundException {
 
-        Usuario usuario = usuarioRepository.findByEmail(email)
+        String normalizedEmail = email == null
+                ? ""
+                : email.strip().toLowerCase(Locale.ROOT);
+
+        Usuario usuario = usuarioRepository.findByEmail(normalizedEmail)
                 .orElseThrow(() -> {
-                    log.warn("Login fallido — email no registrado: {}", email);
+                    log.warn("Login fallido — email no registrado: {}", normalizedEmail);
                     return new UsernameNotFoundException(
-                            "Usuario no encontrado: " + email);
+                            "Usuario no encontrado: " + normalizedEmail);
                 });
 
         if (!usuario.isActivo()) {
-            log.warn("Login fallido — cuenta desactivada: {}", email);
-            throw new UsernameNotFoundException("Cuenta desactivada: " + email);
+            log.warn("Login fallido — cuenta desactivada: {}", normalizedEmail);
+            throw new UsernameNotFoundException("Cuenta desactivada: " + normalizedEmail);
         }
 
-        log.info("Login exitoso para: {}", email);
+        log.info("Login exitoso para: {}", normalizedEmail);
 
         return new User(
                 usuario.getEmail(),

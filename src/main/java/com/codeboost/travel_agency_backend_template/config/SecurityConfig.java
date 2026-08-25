@@ -3,9 +3,9 @@ package com.codeboost.travel_agency_backend_template.config;
 import com.codeboost.travel_agency_backend_template.security.CustomUserDetailsService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -13,7 +13,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -33,7 +32,9 @@ public class SecurityConfig {
 
     public SecurityConfig(
             CustomUserDetailsService userDetailsService,
-            @Value("${app.security.remember-me-key}") String rememberMeKey) {
+            @Value("${app.security.remember-me-key}")
+            String rememberMeKey
+    ) {
         this.userDetailsService = userDetailsService;
         this.rememberMeKey = rememberMeKey;
     }
@@ -45,93 +46,170 @@ public class SecurityConfig {
 
     @Bean
     public DaoAuthenticationProvider authProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        DaoAuthenticationProvider provider =
+                new DaoAuthenticationProvider();
+
         provider.setUserDetailsService(userDetailsService);
         provider.setPasswordEncoder(passwordEncoder());
+
         return provider;
     }
 
     @Bean
     public AuthenticationManager authManager(
-            AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
+            AuthenticationConfiguration configuration
+    ) throws Exception {
+        return configuration.getAuthenticationManager();
     }
 
-    /* ══════════════════════════════════════
-       Handler de éxito: separa ADMIN / USER
-    ══════════════════════════════════════ */
     @Bean
     public AuthenticationSuccessHandler successHandler() {
         return new AuthenticationSuccessHandler() {
+
             @Override
             public void onAuthenticationSuccess(
                     HttpServletRequest request,
                     HttpServletResponse response,
-                    Authentication auth) throws IOException {
+                    Authentication authentication
+            ) throws IOException {
 
-                boolean isAdmin = auth.getAuthorities()
-                        .contains(new SimpleGrantedAuthority("ROLE_ADMIN"));
+                String email =
+                        authentication.getName();
 
-                // Obtener nombre del usuario autenticado
-                String email   = auth.getName();
-                String nombre  = extractNombre(email);
-                String encoded = URLEncoder.encode(nombre, StandardCharsets.UTF_8);
+                String nombre =
+                        extractNombre(email);
 
-                if (isAdmin) {
-                    // Admin → dashboard
-                    response.sendRedirect("/dashboard");
-                } else {
-                    // Usuario normal → index con toast de bienvenida
-                    response.sendRedirect("/?welcome=" + encoded);
-                }
+                String encoded =
+                        URLEncoder.encode(
+                                nombre,
+                                StandardCharsets.UTF_8
+                        );
+
+                response.sendRedirect(
+                        "/?welcome=" + encoded
+                );
             }
 
-            /** Intenta obtener solo el primer nombre del email */
             private String extractNombre(String email) {
-                // Spring Security usa el email como username;
-                // el nombre real lo buscamos en el contexto del hilo si está disponible
-                // Como fallback usamos la parte antes del @
-                String local = email.contains("@") ? email.split("@")[0] : email;
-                return local.substring(0, 1).toUpperCase() + local.substring(1);
+                if (email == null || email.isBlank()) {
+                    return "Usuario";
+                }
+
+                String local =
+                        email.contains("@")
+                                ? email.substring(
+                                        0,
+                                        email.indexOf("@")
+                                )
+                                : email;
+
+                if (local.isBlank()) {
+                    return "Usuario";
+                }
+
+                return local.substring(0, 1).toUpperCase()
+                        + local.substring(1);
             }
         };
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(
+            HttpSecurity http
+    ) throws Exception {
 
         http
-            .authenticationProvider(authProvider())
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers(
-                    "/", "/login", "/registro", "/privacidad",
-                    "/css/**", "/js/**", "/img/**", "/favicon.ico", "/robots.txt", "/sitemap.xml"
-                ).permitAll()
-                .requestMatchers("/dashboard/**").hasAnyRole("ADMIN")
-                .anyRequest().authenticated()
-            )
-            .formLogin(form -> form
-                .loginPage("/login")
-                .loginProcessingUrl("/login")
-                .usernameParameter("email")
-                .passwordParameter("password")
-                .successHandler(successHandler())   // ← handler personalizado
-                .failureUrl("/login?error")
-                .permitAll()
-            )
-            .logout(logout -> logout
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/login?logout")
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-                .permitAll()
-            )
-            .rememberMe(remember -> remember
-                .key(rememberMeKey)
-                .tokenValiditySeconds(86_400 * 7)
-                .userDetailsService(userDetailsService)
-                .rememberMeParameter("remember-me")
-            );
+                .authenticationProvider(authProvider())
+
+                .authorizeHttpRequests(authorize -> authorize
+
+                        /*
+                         * Páginas públicas
+                         */
+                        .requestMatchers(
+                                "/",
+                                "/login",
+                                "/registro",
+                                "/privacidad",
+                                "/error"
+                        ).permitAll()
+
+                        /*
+                         * Recursos del frontend.
+                         *
+                         * Esto permite:
+                         * /assets/css/**
+                         * /assets/js/**
+                         * /assets/images/**
+                         * /assets/videos/**
+                         */
+                        .requestMatchers(
+                                "/assets/**"
+                        ).permitAll()
+
+                        /*
+                         * Compatibilidad si todavía existen recursos
+                         * en las carpetas anteriores.
+                         */
+                        .requestMatchers(
+                                "/css/**",
+                                "/js/**",
+                                "/img/**",
+                                "/images/**",
+                                "/videos/**"
+                        ).permitAll()
+
+                        /*
+                         * Archivos públicos generales
+                         */
+                        .requestMatchers(
+                                "/favicon.ico",
+                                "/robots.txt",
+                                "/sitemap.xml"
+                        ).permitAll()
+
+                        /*
+                         * Acceso administrativo
+                         */
+                        .requestMatchers(
+                                "/dashboard/**"
+                        ).hasRole("ADMIN")
+
+                        /*
+                         * Cualquier otra ruta requiere autenticación
+                         */
+                        .anyRequest()
+                        .authenticated()
+                )
+
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .loginProcessingUrl("/login")
+                        .usernameParameter("email")
+                        .passwordParameter("password")
+                        .successHandler(successHandler())
+                        .failureUrl("/login?error")
+                        .permitAll()
+                )
+
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout")
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                        .deleteCookies(
+                                "JSESSIONID",
+                                "remember-me"
+                        )
+                        .permitAll()
+                )
+
+                .rememberMe(remember -> remember
+                        .key(rememberMeKey)
+                        .tokenValiditySeconds(86_400 * 7)
+                        .userDetailsService(userDetailsService)
+                        .rememberMeParameter("remember-me")
+                );
 
         return http.build();
     }
