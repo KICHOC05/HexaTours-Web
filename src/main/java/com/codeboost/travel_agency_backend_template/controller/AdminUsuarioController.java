@@ -2,6 +2,8 @@ package com.codeboost.travel_agency_backend_template.controller;
 
 import com.codeboost.travel_agency_backend_template.service.UsuarioService;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +22,10 @@ public class AdminUsuarioController {
 
     /* ── Lista ─────────────────────────────── */
     @GetMapping
-    public String lista(Model model) {
+    public String lista(
+            @AuthenticationPrincipal UserDetails userDetails,
+            Model model) {
+        addUsuarioActual(userDetails, model);
         model.addAttribute("usuarios",   usuarioService.listarTodos());
         model.addAttribute("activePage", "usuarios");
         return "admin/usuarios/lista";
@@ -28,7 +33,10 @@ public class AdminUsuarioController {
 
     /* ── Formulario CREAR ───────────────────── */
     @GetMapping("/nuevo")
-    public String nuevoForm(Model model) {
+    public String nuevoForm(
+            @AuthenticationPrincipal UserDetails userDetails,
+            Model model) {
+        addUsuarioActual(userDetails, model);
         model.addAttribute("activePage", "usuarios");
         model.addAttribute("accion", "crear");
         return "admin/usuarios/form";
@@ -60,10 +68,13 @@ public class AdminUsuarioController {
 
     /* ── Formulario EDITAR ──────────────────── */
     @GetMapping("/{id}/editar")
-    public String editarForm(@PathVariable Long id, Model model,
+    public String editarForm(@PathVariable Long id,
+                             @AuthenticationPrincipal UserDetails userDetails,
+                             Model model,
                              RedirectAttributes ra) {
         return usuarioService.buscarPorId(id).map(u -> {
-            model.addAttribute("usuario",    u);
+            addUsuarioActual(userDetails, model);
+            model.addAttribute("usuarioEditar", u);
             model.addAttribute("activePage", "usuarios");
             model.addAttribute("accion",     "editar");
             return "admin/usuarios/form";
@@ -93,10 +104,13 @@ public class AdminUsuarioController {
 
     /* ── Cambiar contraseña (admin) ─────────── */
     @GetMapping("/{id}/password")
-    public String passwordForm(@PathVariable Long id, Model model,
+    public String passwordForm(@PathVariable Long id,
+                               @AuthenticationPrincipal UserDetails userDetails,
+                               Model model,
                                RedirectAttributes ra) {
         return usuarioService.buscarPorId(id).map(u -> {
-            model.addAttribute("usuario",    u);
+            addUsuarioActual(userDetails, model);
+            model.addAttribute("usuarioEditar", u);
             model.addAttribute("activePage", "usuarios");
             return "admin/usuarios/cambiar-password";
         }).orElseGet(() -> {
@@ -150,5 +164,10 @@ public class AdminUsuarioController {
             ra.addFlashAttribute("error", e.getMessage());
         }
         return "redirect:/dashboard/usuarios";
+    }
+
+    private void addUsuarioActual(UserDetails userDetails, Model model) {
+        usuarioService.buscarPorEmail(userDetails.getUsername())
+                      .ifPresent(u -> model.addAttribute("usuario", u));
     }
 }

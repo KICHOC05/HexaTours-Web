@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${accion == 'editar'} ? 'Editar Paquete' : 'Nuevo Paquete'">Paquete — HexaTours</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Italiana&family=DM+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/assets/css/admin.css}">
+</head>
+<body>
+
+<div class="admin-layout">
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <div th:replace="~{admin/fragments/sidebar :: sidebar(${activePage}, ${usuario})}"></div>
+
+    <div class="admin-main">
+
+        <div th:replace="~{admin/fragments/topbar :: topbar(${accion == 'editar'} ? 'Editar Paquete' : 'Nuevo Paquete', 'Formulario de paquete turístico.')}"></div>
+
+        <div class="admin-content">
+
+            <div th:replace="~{admin/fragments/alerts :: alerts}"></div>
+
+            <div class="admin-form-card">
+                <div class="admin-form-header">
+                    <h3 th:text="${accion == 'editar'} ? 'Editar paquete' : 'Crear nuevo paquete'">Formulario</h3>
+                    <p class="form-page-title" th:if="${accion == 'crear'}">Completa los datos para publicar un nuevo paquete turístico.</p>
+                    <p class="form-page-title" th:if="${accion == 'editar'}" th:text="'Editando: ' + ${paquete.nombre}"></p>
+                </div>
+                <div class="admin-form-body">
+
+                    <form th:action="${accion == 'editar'}
+                            ? @{/dashboard/paquetes/{id}/editar(id=${paquete.id})}
+                            : @{/dashboard/paquetes/nuevo}"
+                          method="post" enctype="multipart/form-data">
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nombre">Nombre</label>
+                                <input type="text" id="nombre" name="nombre" required maxlength="100" th:value="${paquete.nombre}" placeholder="Nombre del paquete">
+                            </div>
+                            <div class="form-group">
+                                <label for="destino">Destino</label>
+                                <input type="text" id="destino" name="destino" maxlength="100" th:value="${paquete.destino}" placeholder="Ej: Quintana Roo">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="descripcion">Descripción</label>
+                            <textarea id="descripcion" name="descripcion" maxlength="500" th:text="${paquete.descripcion}" placeholder="Descripción breve del paquete"></textarea>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="categoria">Categoría</label>
+                                <input type="text" id="categoria" name="categoria" maxlength="100" th:value="${paquete.categoria}" placeholder="Ej: Leisure, Grupos de Lujo">
+                            </div>
+                            <div class="form-group">
+                                <label for="badges">Badges</label>
+                                <input type="text" id="badges" name="badges" maxlength="200" th:value="${paquete.badges}" placeholder="Separados por coma">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="icono">Ícono (FontAwesome)</label>
+                                <input type="text" id="icono" name="icono" maxlength="60" th:value="${paquete.icono}" placeholder="fas fa-globe">
+                            </div>
+                            <div class="form-group">
+                                <label for="orden">Orden</label>
+                                <input type="number" id="orden" name="orden" th:value="${paquete.orden}" placeholder="0">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="waMensaje">Mensaje WhatsApp</label>
+                            <input type="text" id="waMensaje" name="waMensaje" maxlength="300" th:value="${paquete.waMensaje}" placeholder="Mensaje para WhatsApp">
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="imagen">Imagen</label>
+                                <input type="file" id="imagen" name="imagen" accept="image/*">
+                                <div th:if="${accion == 'editar' and paquete.imagenUrl != null}" style="margin-top:8px;">
+                                    <img th:src="${paquete.imagenUrl}" alt="Imagen actual" style="max-width:120px;border-radius:8px;border:1px solid var(--hexa-border-strong);">
+                                    <p style="font-size:12px;color:var(--hexa-text-muted);margin-top:4px;">Imagen actual. Sube una nueva para reemplazarla.</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-check" style="margin-top:28px;">
+                                    <input type="checkbox" id="activo" name="activo" value="true" th:checked="${paquete.activo}">
+                                    <label for="activo">Activo</label>
+                                </div>
+                                <div class="form-check" style="margin-top:10px;">
+                                    <input type="checkbox" id="featured" name="featured" value="true" th:checked="${paquete.featured}">
+                                    <label for="featured">Destacado</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary" th:text="${accion == 'editar'} ? 'Guardar cambios' : 'Crear paquete'">Guardar</button>
+                            <a th:href="@{/dashboard/paquetes}" class="btn btn-secondary">Cancelar</a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        var toggle = document.getElementById('sidebarToggle');
+        var sidebar = document.getElementById('adminSidebar');
+        var overlay = document.getElementById('sidebarOverlay');
+        if (toggle) toggle.addEventListener('click', function() { sidebar.classList.toggle('open'); overlay.classList.toggle('show'); });
+        if (overlay) overlay.addEventListener('click', function() { sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+    })();
+</script>
+
+</body>
+</html>

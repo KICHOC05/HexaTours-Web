@@ -19,8 +19,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
+
+import org.springframework.security.core.GrantedAuthority;
 
 @Configuration
 @EnableWebSecurity
@@ -64,51 +64,17 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationSuccessHandler successHandler() {
-        return new AuthenticationSuccessHandler() {
+        return (request, response, authentication) -> {
 
-            @Override
-            public void onAuthenticationSuccess(
-                    HttpServletRequest request,
-                    HttpServletResponse response,
-                    Authentication authentication
-            ) throws IOException {
+            boolean isAdmin = authentication.getAuthorities()
+                    .stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .anyMatch(role -> role.equals("ROLE_ADMIN"));
 
-                String email =
-                        authentication.getName();
-
-                String nombre =
-                        extractNombre(email);
-
-                String encoded =
-                        URLEncoder.encode(
-                                nombre,
-                                StandardCharsets.UTF_8
-                        );
-
-                response.sendRedirect(
-                        "/?welcome=" + encoded
-                );
-            }
-
-            private String extractNombre(String email) {
-                if (email == null || email.isBlank()) {
-                    return "Usuario";
-                }
-
-                String local =
-                        email.contains("@")
-                                ? email.substring(
-                                        0,
-                                        email.indexOf("@")
-                                )
-                                : email;
-
-                if (local.isBlank()) {
-                    return "Usuario";
-                }
-
-                return local.substring(0, 1).toUpperCase()
-                        + local.substring(1);
+            if (isAdmin) {
+                response.sendRedirect("/dashboard");
+            } else {
+                response.sendRedirect("/");
             }
         };
     }
