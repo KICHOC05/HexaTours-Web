@@ -6,11 +6,15 @@ Aplicación web para HexaTours, desarrollada con Spring Boot y Thymeleaf. Incluy
 
 - Página principal responsive con video, servicios, beneficios, destinos y preguntas frecuentes.
 - Formulario de contacto con redirección a WhatsApp.
+- Mensajes personalizados de WhatsApp por paquete desde el dashboard.
 - Registro e inicio de sesión con Spring Security.
+- Rate limit del login por IP e intentos fallidos.
 - Contraseñas protegidas con BCrypt.
 - Administración de usuarios y paquetes turísticos.
 - Persistencia de datos en MariaDB.
 - Gestión de imágenes mediante Cloudinary.
+- Páginas personalizadas para errores 404 y 500.
+- Favicons, preview social, `robots.txt` y `sitemap.xml`.
 - Configuración segura mediante variables de entorno.
 
 ## Tecnologías
@@ -60,6 +64,9 @@ DB_PASSWORD
 JPA_DDL_AUTO
 APP_REMEMBER_ME_KEY
 SESSION_COOKIE_SECURE
+APP_LOGIN_RATE_LIMIT_MAX_ATTEMPTS
+APP_LOGIN_RATE_LIMIT_WINDOW_SECONDS
+APP_LOGIN_RATE_LIMIT_BLOCK_SECONDS
 CLOUDINARY_URL
 ```
 
@@ -106,6 +113,7 @@ http://localhost:8080
 - No escribas contraseñas o claves API directamente en el código.
 - Utiliza HTTPS y cookies seguras en producción.
 - Usa `JPA_DDL_AUTO=update` solamente durante el desarrollo.
+- Configura el rate limit del login según el entorno.
 - Rota cualquier credencial que haya sido expuesta.
 
 ## Propiedad

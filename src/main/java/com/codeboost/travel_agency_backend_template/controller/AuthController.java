@@ -20,9 +20,13 @@ public class AuthController {
     public String loginForm(
             @RequestParam(required = false) String error,
             @RequestParam(required = false) String logout,
+            @RequestParam(name = "rate-limited", required = false) String rateLimited,
             Model model) {
         if (error  != null) model.addAttribute("error",  "Correo o contraseña incorrectos.");
         if (logout != null) model.addAttribute("logout", "Sesión cerrada correctamente.");
+        if (rateLimited != null) {
+            model.addAttribute("error", "Demasiados intentos fallidos. Espera unos minutos e inténtalo nuevamente.");
+        }
         return "login";
     }
 

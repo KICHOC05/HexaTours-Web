@@ -588,6 +588,9 @@ function initTripModal() {
             trigger.dataset.destination ||
             'Consultar con un asesor';
 
+        const configuredMessage =
+            trigger.dataset.waMessage?.trim();
+
         image.src =
             trigger.dataset.image || '';
 
@@ -612,8 +615,14 @@ function initTripModal() {
             trigger.dataset.description ||
             'Solicita la información completa con uno de nuestros asesores.';
 
-        const message =
-            `Hola HexaTours, quiero información sobre el viaje ${tripTitle}.`;
+        const message = configuredMessage || [
+                'Hola, HexaTours.',
+                '',
+                `Me interesa el paquete: ${tripTitle}.`,
+                '¿Podrían compartir disponibilidad, itinerario y tarifa vigente?',
+                '',
+                'Quedo atento(a) a su respuesta.'
+            ].join('\n');
 
         whatsapp.href =
             `https://wa.me/${WHATSAPP_NUMBER}` +
@@ -693,14 +702,19 @@ function initContactForm() {
         const mensaje =
             data.get('mensaje') || '';
 
-        const correoTexto =
-            correo
-                ? ` Mi correo es ${correo}.`
-                : '';
-
-        const whatsappMessage =
-            `Hola HexaTours, soy ${nombre}.` +
-            `${correoTexto} ${mensaje}`;
+        const whatsappMessage = [
+            'Hola, HexaTours.',
+            '',
+            'Me gustaría recibir información para planear mi próximo viaje.',
+            '',
+            `Nombre: ${nombre}`,
+            `Correo: ${correo || 'No proporcionado'}`,
+            '',
+            'Destino o solicitud:',
+            mensaje,
+            '',
+            'Quedo atento(a) a su respuesta.'
+        ].join('\n');
 
         const whatsappUrl =
             `https://wa.me/${WHATSAPP_NUMBER}` +

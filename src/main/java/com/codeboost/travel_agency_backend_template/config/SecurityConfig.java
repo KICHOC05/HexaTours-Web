@@ -1,6 +1,7 @@
 package com.codeboost.travel_agency_backend_template.config;
 
 import com.codeboost.travel_agency_backend_template.security.CustomUserDetailsService;
+import com.codeboost.travel_agency_backend_template.security.LoginRateLimitFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +18,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 
 import java.io.IOException;
 
@@ -37,6 +40,23 @@ public class SecurityConfig {
     ) {
         this.userDetailsService = userDetailsService;
         this.rememberMeKey = rememberMeKey;
+    }
+
+    @Bean
+    public LoginRateLimitFilter loginRateLimitFilter(
+            @Value("${app.rate-limit.login.max-attempts:5}") int maxAttempts,
+            @Value("${app.rate-limit.login.window-seconds:900}") long windowSeconds,
+            @Value("${app.rate-limit.login.block-seconds:900}") long blockSeconds) {
+        return new LoginRateLimitFilter(maxAttempts, windowSeconds, blockSeconds);
+    }
+
+    @Bean
+    public FilterRegistrationBean<LoginRateLimitFilter> loginRateLimitFilterRegistration(
+            LoginRateLimitFilter filter) {
+        FilterRegistrationBean<LoginRateLimitFilter> registration =
+                new FilterRegistrationBean<>(filter);
+        registration.setEnabled(false);
+        return registration;
     }
 
     @Bean
@@ -81,11 +101,14 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(
-            HttpSecurity http
+            HttpSecurity http,
+            LoginRateLimitFilter loginRateLimitFilter
     ) throws Exception {
 
         http
                 .authenticationProvider(authProvider())
+                .addFilterBefore(loginRateLimitFilter,
+                        UsernamePasswordAuthenticationFilter.class)
 
                 .authorizeHttpRequests(authorize -> authorize
 
