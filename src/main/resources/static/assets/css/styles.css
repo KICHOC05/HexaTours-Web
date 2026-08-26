@@ -55,12 +55,22 @@ body { overflow-x: hidden; }
   text-transform: uppercase;
 }
 
-.hero-slogan {
+.hero-slogan,
+.hero-seo-title {
   max-width: 38rem;
   font-size: clamp(1rem, 1.6vw, 1.35rem);
   line-height: 1.55;
   font-weight: 300;
   color: rgba(255,255,255,.9);
+}
+
+.hero-seo-title {
+  max-width: 34rem;
+  font-family: 'Italiana', serif;
+  font-size: clamp(1.8rem, 3.2vw, 3.2rem);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -.025em;
 }
 
 .hero-contact {
