@@ -317,14 +317,37 @@ body { overflow-x: hidden; }
 .trips-page-button:disabled { cursor: not-allowed; opacity: .35; }
 
 .escape-banner {
+  position: relative;
+  isolation: isolate;
   width: 100%;
   min-height: clamp(34rem, 75svh, 48rem);
-  background-image:
-    linear-gradient(rgba(1, 27, 72, .55), rgba(1, 27, 72, .55)),
-    url('../images/fondo-proximo-viaje.jpg');
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
+  overflow: hidden;
+  background: var(--deep);
+}
+
+.escape-banner::before,
+.escape-banner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.escape-banner::before {
+  z-index: 0;
+  background: url('../images/fondo-proximo-viaje.jpg') center / cover no-repeat;
+  filter: saturate(.76) contrast(.9) brightness(.9);
+  transform: scale(1.01);
+}
+
+.escape-banner::after {
+  z-index: 1;
+  background: linear-gradient(rgba(1, 27, 72, .42), rgba(1, 27, 72, .58));
+}
+
+.escape-banner > * {
+  position: relative;
+  z-index: 2;
 }
 
 .faq-list { border-top: 1px solid rgba(13,47,50,.3); }
@@ -437,9 +460,14 @@ body { overflow-x: hidden; }
   .hero-video { object-position: center; }
   .escape-banner {
     min-height: clamp(34rem, 78svh, 44rem);
-    background-attachment: scroll;
-    background-position: 58% center;
-    background-size: cover;
+  }
+  .escape-banner::before {
+    background-image: url('../images/fondo-proximo-viaje-mobile.jpg');
+    background-position: center 58%;
+    filter: saturate(.48) contrast(.84) brightness(.94);
+  }
+  .escape-banner::after {
+    background: linear-gradient(rgba(1, 27, 72, .34), rgba(1, 27, 72, .52));
   }
   .escape-banner .container-shell { padding-block: clamp(5rem, 18vw, 7rem); }
   .escape-banner .cta-title { max-width: 11ch; margin-inline: auto; font-size: clamp(2.45rem, 12vw, 3.8rem); line-height: .98; }
