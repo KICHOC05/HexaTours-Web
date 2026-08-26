@@ -74,6 +74,7 @@ public class PaqueteServiceImpl implements PaqueteService {
         existing.setIcono(datos.getIcono());
         existing.setBadges(datos.getBadges());
         existing.setOrden(datos.getOrden());
+        existing.setPrecio(datos.getPrecio());
         existing.setActivo(datos.isActivo());
         existing.setDestino(datos.getDestino());
         existing.setCategoria(datos.getCategoria());

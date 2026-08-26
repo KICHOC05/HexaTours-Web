@@ -355,7 +355,7 @@ body { overflow-x: hidden; }
 .footer-brand-text { margin-top: 19px; }
 .footer-socials { margin-top: 16px; gap: 13px; }
 .footer-label { font-size: .65rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--sky); }
-.social-pill { display: inline-flex; align-items: center; gap: .48rem; border: 1px solid rgba(255,255,255,.25); border-radius: 999px; padding: .55rem .8rem; font-size: .68rem; color: rgba(255,255,255,.7); transition: background .2s, color .2s, transform .2s; }
+.social-pill { display: inline-flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,.25); border-radius: 999px; padding: .55rem; color: rgba(255,255,255,.7); transition: background .2s, color .2s, transform .2s; }
 .social-pill svg { height: 1rem; width: 1rem; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.7; }
 .social-pill svg path { fill: currentColor; stroke: none; }
 .social-pill .social-dot { fill: currentColor; stroke: none; }

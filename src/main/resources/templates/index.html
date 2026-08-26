@@ -207,7 +207,7 @@
                             href="#contacto"
                             class="text-link mt-8 w-fit">
 
-                        Platiquemos de tu viaje <span>↗</span>
+                        Platiquemos de tu viaje
                     </a>
                 </div>
             </div>
@@ -554,7 +554,7 @@
                             </span>
 
                             <span class="trip-view">
-                                Ver más <b>↗</b>
+                                Ver más
                             </span>
 
                             <span class="trip-caption">
@@ -572,7 +572,7 @@
                                 <span
                                         class="trip-price"
                                         th:text="${experiencia.precio != null
-                                            ? 'Desde $' + experiencia.precio + ' MXN'
+                                            ? 'Desde $' + #numbers.formatDecimal(experiencia.precio, 1, 2, 'COMMA') + ' MXN'
                                             : 'Consultar precio'}">
 
                                     Consultar precio
@@ -617,7 +617,7 @@
                             class="carousel-arrow"
                             type="button"
                             aria-label="Ver viaje anterior">
-                        ←
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
                     </button>
 
                     <button
@@ -625,7 +625,7 @@
                             class="carousel-arrow"
                             type="button"
                             aria-label="Ver viaje siguiente">
-                        →
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
                     </button>
                 </div>
             </div>
@@ -851,7 +851,7 @@
                         type="submit"
                         class="btn-light w-full sm:w-fit">
 
-                    Enviar por WhatsApp <span>↗</span>
+                    Enviar por WhatsApp
                 </button>
 
                 <p
@@ -936,7 +936,7 @@
                     rel="noopener"
                     class="btn-dark mt-8">
 
-                Consultar este viaje <span>↗</span>
+                Consultar este viaje
             </a>
         </div>
     </div>

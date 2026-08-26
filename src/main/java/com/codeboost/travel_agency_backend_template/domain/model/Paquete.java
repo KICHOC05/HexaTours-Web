@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -44,6 +45,10 @@ public class Paquete {
 
     @Column(nullable = false)
     private int orden = 0;
+
+    // Precio "Desde" en MXN — null = "Consultar precio"
+    @Column(precision = 10, scale = 2)
+    private BigDecimal precio;
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -99,6 +104,9 @@ private boolean featured = false;
 
     public int getOrden()                    { return orden; }
     public void setOrden(int o)              { this.orden = o; }
+
+    public BigDecimal getPrecio()            { return precio; }
+    public void setPrecio(BigDecimal p)      { this.precio = p; }
 
     public LocalDateTime getCreatedAt()      { return createdAt; }
     public void setCreatedAt(LocalDateTime c){ this.createdAt = c; }
