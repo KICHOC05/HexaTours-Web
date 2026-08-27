@@ -557,6 +557,9 @@ function initTripModal() {
     const price =
         document.getElementById('modal-price');
 
+    const badges =
+        document.getElementById('modal-badges');
+
     const destination =
         document.getElementById('modal-countries');
 
@@ -604,6 +607,23 @@ function initTripModal() {
             rawPrice
                 ? `Desde $${rawPrice} MXN`
                 : 'Consultar precio';
+
+        if (badges) {
+            const tripBadges = (trigger.dataset.badges || '')
+                .split(',')
+                .map(badge => badge.trim())
+                .filter(Boolean);
+
+            badges.replaceChildren();
+
+            tripBadges.forEach(badge => {
+                const item = document.createElement('span');
+                item.textContent = badge;
+                badges.appendChild(item);
+            });
+
+            badges.hidden = tripBadges.length === 0;
+        }
 
         destination.textContent =
             tripDestination;

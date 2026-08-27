@@ -375,6 +375,9 @@ body { overflow-x: hidden; }
 .modal-image-wrap { min-height: 20rem; background: var(--sand); }
 .modal-image-wrap img { height: 100%; min-height: 20rem; width: 100%; object-fit: cover; }
 .modal-content { padding: 2.2rem 1.5rem 2.5rem; }
+.modal-badges { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: 1rem; }
+.modal-badges[hidden] { display: none; }
+.modal-badges span { display: inline-flex; align-items: center; min-height: 1.8rem; border: 1px solid rgba(1,27,72,.2); border-radius: 999px; padding: .35rem .7rem; background: rgba(255,255,255,.55); color: var(--deep); font-size: .62rem; font-weight: 600; line-height: 1; letter-spacing: .1em; text-transform: uppercase; }
 .modal-content dt { margin-bottom: .3rem; font-size: .62rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--coral); }
 .modal-content dd { font-size: .9rem; line-height: 1.65; color: rgba(13,47,50,.72); }
 

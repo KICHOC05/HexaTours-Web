@@ -602,6 +602,7 @@
                                 data-description=${experiencia.descripcion},
                                 data-price=${experiencia.precio},
                                 data-destination=${experiencia.destino},
+                                data-badges=${experiencia.badges},
                                 data-image=${experiencia.imagenUrl},
                                 data-wa-message=${experiencia.waMensaje},
                                 aria-label=|Ver detalles de ${experiencia.nombre}|
@@ -956,6 +957,13 @@
             <p class="eyebrow">
                 Paquete de viaje
             </p>
+
+            <div
+                    id="modal-badges"
+                    class="modal-badges"
+                    aria-label="Características del paquete"
+                    hidden>
+            </div>
 
             <h2
                     id="modal-title"
