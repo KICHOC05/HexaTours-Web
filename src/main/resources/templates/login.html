@@ -14,14 +14,14 @@
 
     <meta
             name="description"
-            content="HexaTours: inicia sesión para gestionar tu cuenta y acceder a experiencias de viaje hechas a tu medida.">
+            content="Acceso exclusivo al panel administrativo de Hexa Tours.">
 
     <meta
             name="theme-color"
             content="#011b48">
 
     <title>
-        Iniciar sesión | Hexa Tours
+        Acceso administrativo | Hexa Tours
     </title>
 
     <th:block th:replace="~{fragments/head :: common-head}"></th:block>
@@ -74,7 +74,7 @@
 
 <main id="contenido" class="login-shell">
 
-    <section class="login-visual" aria-label="Inspiración para tu próximo viaje">
+    <section class="login-visual" aria-label="Acceso administrativo de Hexa Tours">
         <div class="login-visual-shade" aria-hidden="true"></div>
 
         <a
@@ -89,24 +89,6 @@
                     alt="HexaTours">
         </a>
 
-        <div class="login-visual-copy">
-            <p class="login-kicker">Tu viaje empieza aquí</p>
-
-            <h1>
-                El mundo te espera.
-                <span>Volvamos a planear.</span>
-            </h1>
-
-            <p>
-                Accede a tu cuenta y continúa descubriendo experiencias
-                diseñadas para trascender fronteras.
-            </p>
-        </div>
-
-        <p class="login-location">
-            <span aria-hidden="true">✦</span>
-            Inspiración para tu próxima aventura
-        </p>
     </section>
 
     <section class="login-panel" aria-labelledby="login-title">
@@ -130,12 +112,12 @@
             </div>
 
             <div class="login-card">
-                <p class="login-kicker login-kicker--dark">Área de viajeros</p>
+                <p class="login-kicker login-kicker--dark">Acceso restringido</p>
 
-                <h2 id="login-title">Bienvenido de vuelta</h2>
+                <h2 id="login-title">Panel administrativo</h2>
 
                 <p class="login-intro">
-                    Ingresa tus datos para continuar con tu próxima experiencia.
+                    Uso exclusivo para personal autorizado de Hexa Tours.
                 </p>
 
                 <div
@@ -152,13 +134,6 @@
                     <p th:text="${logout}">Sesión cerrada correctamente.</p>
                 </div>
 
-                <div
-                        th:if="${success}"
-                        class="auth-alert auth-alert--success"
-                        role="status">
-                    <p th:text="${success}">¡Cuenta creada!</p>
-                </div>
-
                 <form
                         id="login-form"
                         class="login-form"
@@ -168,7 +143,7 @@
                         novalidate>
 
                     <div class="auth-field">
-                        <label for="email" class="auth-label">Correo electrónico</label>
+                        <label for="email" class="auth-label">Correo administrativo</label>
 
                         <input
                                 id="email"
@@ -176,7 +151,7 @@
                                 type="email"
                                 class="auth-input"
                                 autocomplete="email"
-                                placeholder="nombre@correo.com"
+                                placeholder="usuario@hexatours.com"
                                 aria-describedby="email-error"
                                 required>
 
@@ -228,14 +203,14 @@
                     </p>
 
                     <button type="submit" class="auth-submit">
-                        <span>Iniciar sesión</span>
+                        <span>Acceder al panel</span>
                         <span aria-hidden="true">→</span>
                     </button>
                 </form>
 
                 <p class="login-security-note">
                     <span aria-hidden="true">◆</span>
-                    Tus datos viajan protegidos durante el acceso.
+                    Solo personal autorizado puede acceder.
                 </p>
             </div>
         </div>

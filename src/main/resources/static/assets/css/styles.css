@@ -489,17 +489,32 @@ body { overflow-x: hidden; }
 .header-login {
   display: inline-flex;
   align-items: center;
-  border: 1px solid var(--coral);
+  border: 1px solid currentColor;
   border-radius: 999px;
-  background: var(--coral);
-  color: white;
+  background: transparent;
+  color: inherit;
   padding: .62rem 1.2rem;
   font-size: .78rem;
   letter-spacing: .04em;
-  transition: background .25s, border-color .25s, transform .25s;
+  transition: color .25s, border-color .25s, transform .25s;
 }
 
-.header-login:hover { background: var(--naranja-oscuro); border-color: var(--naranja-oscuro); }
+.header-login:hover { border-color: var(--coral); color: var(--coral); transform: translateY(-1px); }
+
+.header-cta {
+  display: inline-flex;
+  border-color: var(--coral);
+  background: var(--coral);
+  color: white;
+  font-weight: 600;
+}
+
+.header-cta:hover {
+  border-color: var(--naranja-oscuro);
+  background: var(--naranja-oscuro);
+  color: white;
+  transform: translateY(-1px);
+}
 
 .header-user { font-size: .8rem; letter-spacing: .03em; opacity: .9; }
 

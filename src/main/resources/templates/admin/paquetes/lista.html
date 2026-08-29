@@ -49,6 +49,7 @@
                                 <th>Nombre</th>
                                 <th class="hide-mobile">Destino</th>
                                 <th class="hide-mobile">Categoría</th>
+                                <th>Orden</th>
                                 <th>Estado</th>
                                 <th>Acciones</th>
                             </tr>
@@ -66,6 +67,7 @@
                                 <td th:text="${p.nombre}">Nombre</td>
                                 <td class="hide-mobile" th:text="${p.destino}">Destino</td>
                                 <td class="hide-mobile" th:text="${p.categoria}">Categoría</td>
+                                <td th:text="${p.orden > 0 ? p.orden : 'Sin definir'}">1</td>
                                 <td>
                                     <span class="badge" th:classappend="${p.activo} ? 'badge-active' : 'badge-inactive'"
                                           th:text="${p.activo} ? 'Activo' : 'Inactivo'">Activo</span>

@@ -3,6 +3,7 @@ package com.codeboost.travel_agency_backend_template.service.impl;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.codeboost.travel_agency_backend_template.service.CloudinaryService;
+import com.codeboost.travel_agency_backend_template.web.validation.ImageFileValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -26,20 +27,9 @@ public class CloudinaryServiceImpl implements CloudinaryService {
 
     @Override
     public Map<String, String> upload(MultipartFile file, String folder) {
-        // Validaciones básicas
-        if (file == null || file.isEmpty()) {
-            throw new IllegalArgumentException("El archivo no puede estar vacío.");
-        }
-
-        String contentType = file.getContentType();
-        if (contentType == null || !contentType.startsWith("image/")) {
-            throw new IllegalArgumentException(
-                    "Solo se permiten imágenes (JPG, PNG, WebP, GIF).");
-        }
-
-        if (file.getSize() > 10 * 1024 * 1024) { // 10 MB
-            throw new IllegalArgumentException(
-                    "La imagen no debe superar 10 MB.");
+        String errorValidacion = ImageFileValidator.validar(file, true);
+        if (errorValidacion != null) {
+            throw new IllegalArgumentException(errorValidacion);
         }
 
         try {

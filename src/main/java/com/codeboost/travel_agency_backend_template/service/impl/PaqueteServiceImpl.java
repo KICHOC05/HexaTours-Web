@@ -38,13 +38,13 @@ public class PaqueteServiceImpl implements PaqueteService {
     @Override
     @Transactional(readOnly = true)
     public List<Paquete> listarTodos() {
-        return paqueteRepository.findAllByOrderByOrdenAscCreatedAtDesc();
+        return paqueteRepository.findTodosOrdenados();
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Paquete> listarActivos() {
-        return paqueteRepository.findByActivoTrueOrderByOrdenAsc();
+        return paqueteRepository.findActivosOrdenados();
     }
 
     @Override
@@ -56,9 +56,19 @@ public class PaqueteServiceImpl implements PaqueteService {
     @Override
     @Transactional
     public Paquete guardar(Paquete paquete, MultipartFile imagen) {
-        subirImagenSiExiste(paquete, imagen, null);
+        validarOrdenDisponible(paquete.getOrden(), null);
+        normalizarCampos(paquete);
+        boolean imagenSubida = tieneImagen(imagen);
+        subirImagenSiExiste(paquete, imagen);
         log.info("Guardando nuevo paquete: {}", paquete.getNombre());
-        return paqueteRepository.save(paquete);
+        try {
+            return paqueteRepository.save(paquete);
+        } catch (RuntimeException e) {
+            if (imagenSubida) {
+                cloudinaryService.delete(paquete.getImagenPublicId());
+            }
+            throw e;
+        }
     }
 
     @Override
@@ -67,6 +77,9 @@ public class PaqueteServiceImpl implements PaqueteService {
         Paquete existing = paqueteRepository.findById(id)
                 .orElseThrow(() ->
                         new RuntimeException("Paquete no encontrado con ID: " + id));
+
+        validarOrdenDisponible(datos.getOrden(), id);
+        normalizarCampos(datos);
 
         // Actualizar campos
         existing.setNombre(datos.getNombre());
@@ -79,14 +92,40 @@ public class PaqueteServiceImpl implements PaqueteService {
         existing.setDestino(datos.getDestino());
         existing.setCategoria(datos.getCategoria());
         existing.setWaMensaje(datos.getWaMensaje());
-        existing.setFeatured(datos.isFeatured());
+        existing.setFeatured(false);
         existing.setUpdatedAt(LocalDateTime.now());
 
-        // Subir nueva imagen si se proporcionó
-        subirImagenSiExiste(existing, imagen, existing.getImagenPublicId());
+        String publicIdAnterior = existing.getImagenPublicId();
+        boolean reemplazaImagen = tieneImagen(imagen);
+        subirImagenSiExiste(existing, imagen);
 
         log.info("Actualizando paquete ID {}: {}", id, existing.getNombre());
-        return paqueteRepository.save(existing);
+        try {
+            Paquete actualizado = reemplazaImagen
+                    ? paqueteRepository.saveAndFlush(existing)
+                    : paqueteRepository.save(existing);
+
+            if (reemplazaImagen
+                    && publicIdAnterior != null
+                    && !publicIdAnterior.isBlank()
+                    && !publicIdAnterior.equals(actualizado.getImagenPublicId())) {
+                cloudinaryService.delete(publicIdAnterior);
+            }
+            return actualizado;
+        } catch (RuntimeException e) {
+            if (reemplazaImagen) {
+                cloudinaryService.delete(existing.getImagenPublicId());
+            }
+            throw e;
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean ordenEnUso(int orden, Long paqueteIdExcluido) {
+        return paqueteIdExcluido == null
+                ? paqueteRepository.existsByOrden(orden)
+                : paqueteRepository.existsByOrdenAndIdNot(orden, paqueteIdExcluido);
     }
 
     @Override
@@ -117,19 +156,14 @@ public class PaqueteServiceImpl implements PaqueteService {
 
     /* ─────────────────────────────────────────
        Método privado: sube imagen si existe
-       Si hay publicId anterior lo elimina primero
+       La eliminación de una imagen anterior se realiza después de persistir
     ───────────────────────────────────────── */
     private void subirImagenSiExiste(Paquete paquete,
-                                     MultipartFile imagen,
-                                     String publicIdAnterior) {
+                                     MultipartFile imagen) {
         if (imagen == null || imagen.isEmpty()) return;
 
         try {
-            // Eliminar imagen anterior si existe
-            if (publicIdAnterior != null && !publicIdAnterior.isBlank()) {
-                cloudinaryService.delete(publicIdAnterior);
-            }
-            // Subir nueva imagen
+            // Primero subir la nueva imagen para conservar la anterior si falla la carga.
             Map<String, String> resultado =
                     cloudinaryService.upload(imagen, folder);
 
@@ -142,5 +176,47 @@ public class PaqueteServiceImpl implements PaqueteService {
             throw new RuntimeException(
                     "Error al procesar la imagen: " + e.getMessage());
         }
+    }
+
+    private void validarOrdenDisponible(int orden, Long paqueteIdExcluido) {
+        if (orden < 1 || orden > 9999) {
+            throw new IllegalArgumentException("El orden debe estar entre 1 y 9999.");
+        }
+        if (ordenEnUso(orden, paqueteIdExcluido)) {
+            throw new IllegalArgumentException("El número de orden ya está asignado a otro paquete.");
+        }
+    }
+
+    private boolean tieneImagen(MultipartFile imagen) {
+        return imagen != null && !imagen.isEmpty();
+    }
+
+    private void normalizarCampos(Paquete paquete) {
+        paquete.setNombre(limpiar(paquete.getNombre()));
+        paquete.setDescripcion(limpiar(paquete.getDescripcion()));
+        paquete.setDestino(limpiar(paquete.getDestino()));
+        paquete.setCategoria(limpiar(paquete.getCategoria()));
+        paquete.setWaMensaje(limpiarOpcional(paquete.getWaMensaje()));
+        paquete.setBadges(normalizarBadges(paquete.getBadges()));
+    }
+
+    private String limpiar(String valor) {
+        return valor == null ? null : valor.trim();
+    }
+
+    private String limpiarOpcional(String valor) {
+        String limpio = limpiar(valor);
+        return limpio == null || limpio.isBlank() ? null : limpio;
+    }
+
+    private String normalizarBadges(String badges) {
+        if (badges == null || badges.isBlank()) {
+            return null;
+        }
+        return java.util.Arrays.stream(badges.split(","))
+                .map(String::trim)
+                .filter(valor -> !valor.isBlank())
+                .distinct()
+                .collect(java.util.stream.Collectors.joining(","));
     }
 }

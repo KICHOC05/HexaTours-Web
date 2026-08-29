@@ -38,6 +38,14 @@
         <div class="hidden items-center gap-3 lg:flex">
 
             <a
+                    th:href="@{/} + '#contacto'"
+                    href="/#contacto"
+                    class="header-cta">
+
+                Contacto <span>↗</span>
+            </a>
+
+            <a
                     sec:authorize="!isAuthenticated()"
                     th:href="@{/login}"
                     href="/login"
@@ -70,13 +78,6 @@
                 </form>
             </div>
 
-            <a
-                    th:href="@{/} + '#contacto'"
-                    href="/#contacto"
-                    class="header-cta">
-
-                Contacto <span>↗</span>
-            </a>
         </div>
 
         <button

@@ -44,7 +44,7 @@ public class Paquete {
     private boolean activo = true;
 
     @Column(nullable = false)
-    private int orden = 0;
+    private int orden = 1;
 
     // Precio "Desde" en MXN — null = "Consultar precio"
     @Column(precision = 10, scale = 2)
