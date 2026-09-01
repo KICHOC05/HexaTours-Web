@@ -12,6 +12,7 @@ public interface PaqueteService {
     Optional<Paquete> buscarPorId(Long id);
     Paquete guardar(Paquete paquete, MultipartFile imagen);
     Paquete actualizar(Long id, Paquete datos, MultipartFile imagen);
+    boolean ordenEnUso(int orden, Long paqueteIdExcluido);
     void eliminar(Long id);
     void toggleActivo(Long id);
 }

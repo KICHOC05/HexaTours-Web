@@ -55,22 +55,12 @@ body { overflow-x: hidden; }
   text-transform: uppercase;
 }
 
-.hero-slogan,
-.hero-seo-title {
+.hero-slogan {
   max-width: 38rem;
   font-size: clamp(1rem, 1.6vw, 1.35rem);
   line-height: 1.55;
   font-weight: 300;
   color: rgba(255,255,255,.9);
-}
-
-.hero-seo-title {
-  max-width: 34rem;
-  font-family: 'Italiana', serif;
-  font-size: clamp(1.8rem, 3.2vw, 3.2rem);
-  font-weight: 400;
-  line-height: 1.05;
-  letter-spacing: -.025em;
 }
 
 .hero-contact {
@@ -227,6 +217,12 @@ body { overflow-x: hidden; }
 @media (min-width: 640px) and (max-width: 1023px) {
   .benefit-cards { grid-template-columns: repeat(2, minmax(0, 13rem)); gap: 2.3rem; }
 }
+@media (min-width: 1024px) {
+  .benefit-overlay { background: linear-gradient(to bottom, rgba(0,0,0,.18), rgba(0,0,0,.46) 48%, rgba(0,0,0,.92)); }
+  .benefit-card:hover .benefit-overlay { background: linear-gradient(to bottom, rgba(0,0,0,.24), rgba(0,0,0,.56) 48%, rgba(0,0,0,.95)); }
+  .benefit-card-title { font-size: 1.8rem; line-height: 1.08; text-shadow: 0 2px 12px rgba(0,0,0,.45); }
+  .benefit-text { margin-top: .7rem; color: rgba(255,255,255,.96); font-size: .96rem; line-height: 1.55; text-shadow: 0 1px 8px rgba(0,0,0,.6); }
+}
 @media (max-width: 639px) {
   .benefits-title { max-width: 21rem; margin-inline: 0; text-align: left; white-space: normal; font-size: clamp(2.25rem, 11vw, 3.15rem); line-height: .98; }
   .benefit-cards { grid-template-columns: 1fr; gap: 1rem; max-width: 32rem; margin-inline: auto; }
@@ -342,7 +338,7 @@ body { overflow-x: hidden; }
 
 .escape-banner::after {
   z-index: 1;
-  background: linear-gradient(rgba(1, 27, 72, .42), rgba(1, 27, 72, .58));
+  background: linear-gradient(rgba(0, 0, 0, .18), rgba(0, 0, 0, .36));
 }
 
 .escape-banner > * {
@@ -379,6 +375,9 @@ body { overflow-x: hidden; }
 .modal-image-wrap { min-height: 20rem; background: var(--sand); }
 .modal-image-wrap img { height: 100%; min-height: 20rem; width: 100%; object-fit: cover; }
 .modal-content { padding: 2.2rem 1.5rem 2.5rem; }
+.modal-badges { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: 1rem; }
+.modal-badges[hidden] { display: none; }
+.modal-badges span { display: inline-flex; align-items: center; min-height: 1.8rem; border: 1px solid rgba(1,27,72,.2); border-radius: 999px; padding: .35rem .7rem; background: rgba(255,255,255,.55); color: var(--deep); font-size: .62rem; font-weight: 600; line-height: 1; letter-spacing: .1em; text-transform: uppercase; }
 .modal-content dt { margin-bottom: .3rem; font-size: .62rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--coral); }
 .modal-content dd { font-size: .9rem; line-height: 1.65; color: rgba(13,47,50,.72); }
 
@@ -467,7 +466,7 @@ body { overflow-x: hidden; }
     filter: saturate(.48) contrast(.84) brightness(.94);
   }
   .escape-banner::after {
-    background: linear-gradient(rgba(1, 27, 72, .34), rgba(1, 27, 72, .52));
+    background: linear-gradient(rgba(0, 0, 0, .24), rgba(0, 0, 0, .4));
   }
   .escape-banner .container-shell { padding-block: clamp(5rem, 18vw, 7rem); }
   .escape-banner .cta-title { max-width: 11ch; margin-inline: auto; font-size: clamp(2.45rem, 12vw, 3.8rem); line-height: .98; }
@@ -490,17 +489,32 @@ body { overflow-x: hidden; }
 .header-login {
   display: inline-flex;
   align-items: center;
-  border: 1px solid var(--coral);
+  border: 1px solid currentColor;
   border-radius: 999px;
-  background: var(--coral);
-  color: white;
+  background: transparent;
+  color: inherit;
   padding: .62rem 1.2rem;
   font-size: .78rem;
   letter-spacing: .04em;
-  transition: background .25s, border-color .25s, transform .25s;
+  transition: color .25s, border-color .25s, transform .25s;
 }
 
-.header-login:hover { background: var(--naranja-oscuro); border-color: var(--naranja-oscuro); }
+.header-login:hover { border-color: var(--coral); color: var(--coral); transform: translateY(-1px); }
+
+.header-cta {
+  display: inline-flex;
+  border-color: var(--coral);
+  background: var(--coral);
+  color: white;
+  font-weight: 600;
+}
+
+.header-cta:hover {
+  border-color: var(--naranja-oscuro);
+  background: var(--naranja-oscuro);
+  color: white;
+  transform: translateY(-1px);
+}
 
 .header-user { font-size: .8rem; letter-spacing: .03em; opacity: .9; }
 

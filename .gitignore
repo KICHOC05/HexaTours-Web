@@ -39,3 +39,6 @@ build/
 
 ### Local-only test data ###
 src/main/java/com/codeboost/travel_agency_backend_template/config/LocalDataSeeder.java
+
+### Local session artifacts ###
+cookies*.txt
