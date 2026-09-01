@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <th:block th:replace="~{fragments/head :: common-head}"></th:block>
+    <title>Dashboard — HexaTours</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Italiana&family=DM+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/assets/css/admin.css}">
+</head>
+<body>
+
+<div class="admin-layout">
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <div th:replace="~{admin/fragments/sidebar :: sidebar(${activePage}, ${usuario})}"></div>
+
+    <div class="admin-main">
+
+        <div th:replace="~{admin/fragments/topbar :: topbar('Dashboard', 'Panel general de HexaTours.')}"></div>
+
+        <div class="admin-content">
+
+            <div th:replace="~{admin/fragments/alerts :: alerts}"></div>
+
+            <!-- ═══ HERO ═══ -->
+            <div class="dash-hero">
+                <div class="dash-hero-content">
+                    <div class="dash-hero-left">
+                        <h1 class="dash-hero-title">Hola, <span class="dash-hero-name" th:text="${usuario != null ? usuario.nombre : 'Admin'}">Admin</span>.</h1>
+                        <p class="dash-hero-desc">Administra usuarios, paquetes y contenido de HexaTours desde un solo lugar.</p>
+                        <div class="dash-hero-actions">
+                            <a th:href="@{/dashboard/usuarios}" class="btn btn-hero-primary">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                Gestionar usuarios
+                            </a>
+                            <a th:href="@{/dashboard/paquetes}" class="btn btn-hero-secondary">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="18" height="18" x="3" y="7" rx="2"/><path d="M12 7v4"/></svg>
+                                Ver paquetes
+                            </a>
+                        </div>
+                    </div>
+                    <div class="dash-hero-date">
+                        <span class="dash-date-weekday" id="heroWeekday"></span>
+                        <span class="dash-date-day" id="heroDay"></span>
+                        <span class="dash-date-rest"><span id="heroMonth"></span> · <span id="heroYear"></span></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══ STATS ═══ -->
+            <div class="dash-stats">
+                <div class="dash-stat-card">
+                    <span class="dash-stat-label">Usuarios</span>
+                    <span class="dash-stat-value" th:text="${totalUsuarios}">0</span>
+                    <span class="dash-stat-sub">registrados</span>
+                </div>
+                <div class="dash-stat-card">
+                    <span class="dash-stat-label">Paquetes</span>
+                    <span class="dash-stat-value" th:text="${totalPaquetes}">0</span>
+                    <span class="dash-stat-sub">publicados</span>
+                </div>
+            </div>
+
+            <!-- ═══ MODULES ═══ -->
+            <div class="dash-section-header">
+                <h2 class="dash-section-title">Gestión</h2>
+            </div>
+            <div class="dash-modules">
+                <a th:href="@{/dashboard/usuarios}" class="dash-module-card">
+                    <div class="dash-module-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    </div>
+                    <div class="dash-module-body">
+                        <span class="dash-module-cat">Usuarios</span>
+                        <h3>Gestión de usuarios</h3>
+                        <p>Administra cuentas, roles y permisos del sistema.</p>
+                        <span class="dash-module-count" th:text="${totalUsuarios} + ' registrados'">0 registrados</span>
+                    </div>
+                    <div class="dash-module-arrow">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </div>
+                </a>
+                <a th:href="@{/dashboard/paquetes}" class="dash-module-card">
+                    <div class="dash-module-icon dash-module-icon-turquoise">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="18" height="18" x="3" y="7" rx="2"/><path d="M12 7v4"/><path d="M12 11h.01"/></svg>
+                    </div>
+                    <div class="dash-module-body">
+                        <span class="dash-module-cat">Contenido</span>
+                        <h3>Paquetes turísticos</h3>
+                        <p>Crea, edita y administra destinos y experiencias.</p>
+                        <span class="dash-module-count" th:text="${totalPaquetes} + ' publicados'">0 publicados</span>
+                    </div>
+                    <div class="dash-module-arrow">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </div>
+                </a>
+            </div>
+
+            <!-- ═══ QUICK ACTIONS ═══ -->
+            <div class="dash-section-header">
+                <h2 class="dash-section-title">Acciones rápidas</h2>
+            </div>
+            <div class="dash-quick">
+                <a th:href="@{/dashboard/usuarios/nuevo}" class="dash-quick-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>
+                    Nuevo usuario
+                </a>
+                <a th:href="@{/dashboard/paquetes/nuevo}" class="dash-quick-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                    Nuevo paquete
+                </a>
+                <a th:href="@{/}" target="_blank" class="dash-quick-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                    Ver sitio web
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    /* ── Date ── */
+    (function() {
+        var now = new Date();
+        var weekdays = ['DOMINGO','LUNES','MARTES','MIÉRCOLES','JUEVES','VIERNES','SÁBADO'];
+        var months = ['ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'];
+        var day = document.getElementById('heroDay');
+        var month = document.getElementById('heroMonth');
+        var year = document.getElementById('heroYear');
+        var weekday = document.getElementById('heroWeekday');
+        if (day) day.textContent = String(now.getDate()).padStart(2, '0');
+        if (month) month.textContent = months[now.getMonth()];
+        if (year) year.textContent = now.getFullYear();
+        if (weekday) weekday.textContent = weekdays[now.getDay()];
+    })();
+
+    /* ── Sidebar toggle ── */
+    (function() {
+        var toggle = document.getElementById('sidebarToggle');
+        var sidebar = document.getElementById('adminSidebar');
+        var overlay = document.getElementById('sidebarOverlay');
+        if (toggle && sidebar) {
+            toggle.addEventListener('click', function() {
+                sidebar.classList.toggle('open');
+                overlay.classList.toggle('show');
+            });
+        }
+        if (overlay) {
+            overlay.addEventListener('click', function() {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('show');
+            });
+        }
+    })();
+</script>
+
+</body>
+</html>

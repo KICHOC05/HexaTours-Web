@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<footer
+        id="site-footer"
+        class="footer-hexa text-white"
+        th:fragment="footer">
+
+    <div class="container-shell py-14 sm:py-20">
+
+        <div class="grid items-start gap-12 border-b border-white/15 pb-12 lg:grid-cols-[1.15fr_.85fr_.8fr]">
+
+            <div class="flex flex-col items-start">
+
+                <a
+                        th:href="@{/} + '#inicio'"
+                        href="/#inicio"
+                        aria-label="HexaTours, inicio"
+                        class="footer-logo-link">
+
+                    <img
+                            th:src="@{/assets/images/fondo-letrasblancas-hexatour.png}"
+                            src="/assets/images/fondo-letrasblancas-hexatour.png"
+                            alt="Hexa Tours"
+                            class="footer-logo">
+                </a>
+
+                <p class="footer-brand-text max-w-md text-sm leading-relaxed text-white/60">
+                    Viajes hechos a la medida, con asesoría cercana antes, durante y después.
+                </p>
+
+                <div
+                        class="footer-socials flex flex-wrap gap-3"
+                        aria-label="Redes sociales de HexaTours">
+
+                    <a
+                            class="social-pill"
+                            href="https://www.instagram.com/hexatours"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="Instagram">
+
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <rect x="3" y="3" width="18" height="18" rx="5"/>
+                            <circle cx="12" cy="12" r="4.2"/>
+                            <circle class="social-dot" cx="17.4" cy="6.7" r="1"/>
+                        </svg>
+                    </a>
+
+                    <a
+                            class="social-pill"
+                            href="https://www.facebook.com/share/1BdnUdmgNt/"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="Facebook">
+
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M14.2 21v-8h2.7l.4-3.1h-3.1v-2c0-.9.3-1.5 1.6-1.5h1.7V3.6c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.1H8V13h2.8v8h3.4Z"/>
+                        </svg>
+                    </a>
+
+                    <a
+                            class="social-pill"
+                            href="https://www.tiktok.com/@hexa.tours"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="TikTok">
+
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M15.3 3c.3 2.4 1.7 3.8 4.1 4v3.3a9.1 9.1 0 0 1-4.1-1v6.1a5.5 5.5 0 1 1-4.8-5.5v3.4a2.2 2.2 0 1 0 1.5 2.1V3h3.3Z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <div>
+
+                <p class="footer-label">
+                    Visítanos
+                </p>
+
+                <address class="mt-5 max-w-xs text-sm not-italic leading-relaxed text-white/65">
+                    Av. Miguel Alemán 6063<br>
+                    Plaza Antalya, Local 308<br>
+                    Col. Américas, 67130<br>
+                    Guadalupe, Nuevo León
+                </address>
+
+                <a
+                        class="mt-4 inline-block text-sm underline decoration-white/30 underline-offset-4"
+                        href="https://maps.app.goo.gl/DEsRxBmiGCtAMsjc8"
+                        target="_blank"
+                        rel="noopener noreferrer">
+
+                    Ver en el mapa
+                </a>
+            </div>
+
+            <div>
+
+                <p class="footer-label">
+                    Contacto
+                </p>
+
+                <div class="mt-5 space-y-3 text-sm text-white/65">
+
+                    <a class="block" href="tel:+528134215892">
+                        +52 81 3421 5892
+                    </a>
+
+                    <a class="block" href="mailto:hexatoursmx@gmail.com">
+                        hexatoursmx@gmail.com
+                    </a>
+                </div>
+
+                <p class="footer-label mt-8">
+                    Horarios
+                </p>
+
+                <p class="mt-4 text-sm leading-relaxed text-white/55">
+                    Lun–Vie · 10:00 a 19:00<br>
+                    Sábado · 10:00 a 15:00<br>
+                    Domingo · Cerrado
+                </p>
+            </div>
+        </div>
+
+        <div class="flex flex-col gap-3 pt-6 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between">
+
+            <p>
+                © <span id="current-year">2026</span>
+                HexaTours. Todos los derechos reservados.
+            </p>
+
+            <div class="flex flex-wrap gap-4">
+
+                <p>
+                    RNT · 04190399b8c18
+                </p>
+
+                <a th:href="@{/privacidad}">
+                    Aviso de privacidad
+                </a>
+            </div>
+        </div>
+    </div>
+
+</footer>
+
+</body>
+</html>

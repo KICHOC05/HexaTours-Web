@@ -1,0 +1,216 @@
+<!doctype html>
+<html
+        lang="es"
+        class="scroll-smooth"
+        xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0">
+
+    <meta
+            name="description"
+            content="Acceso exclusivo al panel administrativo de Hexa Tours.">
+
+    <meta
+            name="theme-color"
+            content="#011b48">
+
+    <title>
+        Acceso administrativo | Hexa Tours
+    </title>
+
+    <th:block th:replace="~{fragments/head :: common-head}"></th:block>
+
+    <link
+            rel="preconnect"
+            href="https://fonts.googleapis.com">
+
+    <link
+            rel="preconnect"
+            href="https://fonts.gstatic.com"
+            crossorigin>
+
+    <link
+            href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@300;400;500;600&family=Italiana&family=Montserrat:wght@400;500;600;700&display=swap"
+            rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ink: '#011b48',
+                        deep: '#011b48',
+                        sand: '#f5f8f8',
+                        cream: '#ffffff',
+                        coral: '#f57f1e',
+                        sky: '#12aeb1'
+                    },
+                    fontFamily: {
+                        display: ['Italiana', 'serif'],
+                        sans: ['DM Sans', 'sans-serif']
+                    }
+                }
+            }
+        };
+    </script>
+
+    <link
+            rel="stylesheet"
+            th:href="@{/assets/css/styles.css}"
+            href="/assets/css/styles.css">
+</head>
+
+<body class="login-page">
+
+<a href="#contenido" class="skip-link">Ir al contenido</a>
+
+<main id="contenido" class="login-shell">
+
+    <section class="login-visual" aria-label="Acceso administrativo de Hexa Tours">
+        <div class="login-visual-shade" aria-hidden="true"></div>
+
+        <a
+                th:href="@{/}"
+                href="/"
+                class="login-brand"
+                aria-label="HexaTours, volver al inicio">
+
+            <img
+                    th:src="@{/assets/images/fondo-letrasblancas-hexatour.png}"
+                    src="/assets/images/fondo-letrasblancas-hexatour.png"
+                    alt="HexaTours">
+        </a>
+
+    </section>
+
+    <section class="login-panel" aria-labelledby="login-title">
+        <div class="login-panel-inner">
+
+            <div class="login-panel-topbar">
+                <a
+                        th:href="@{/}"
+                        href="/"
+                        class="login-back-link">
+
+                    <span aria-hidden="true">←</span>
+                    Volver al inicio
+                </a>
+
+                <img
+                        th:src="@{/assets/images/hexatours_transparente.png}"
+                        src="/assets/images/hexatours_transparente.png"
+                        alt="HexaTours"
+                        class="login-mobile-logo">
+            </div>
+
+            <div class="login-card">
+                <h2 id="login-title">Panel administrativo</h2>
+
+                <div
+                        th:if="${error}"
+                        class="auth-alert auth-alert--error"
+                        role="alert">
+                    <p th:text="${error}">Correo o contraseña incorrectos.</p>
+                </div>
+
+                <div
+                        th:if="${logout}"
+                        class="auth-alert auth-alert--info"
+                        role="status">
+                    <p th:text="${logout}">Sesión cerrada correctamente.</p>
+                </div>
+
+                <form
+                        id="login-form"
+                        class="login-form"
+                        th:action="@{/login}"
+                        action="/login"
+                        method="post"
+                        novalidate>
+
+                    <div class="auth-field">
+                        <label for="email" class="auth-label">Correo</label>
+
+                        <input
+                                id="email"
+                                name="email"
+                                type="email"
+                                class="auth-input"
+                                autocomplete="email"
+                                placeholder="usuario@hexatours.com"
+                                aria-describedby="email-error"
+                                required>
+
+                        <p id="email-error" class="field-error" hidden>
+                            Ingresa un correo electrónico válido.
+                        </p>
+                    </div>
+
+                    <div class="auth-field">
+                        <label for="password" class="auth-label">Contraseña</label>
+
+                        <div class="auth-password-wrap">
+                            <input
+                                    id="password"
+                                    name="password"
+                                    type="password"
+                                    class="auth-input auth-input--password"
+                                    autocomplete="current-password"
+                                    placeholder="••••••••"
+                                    aria-describedby="password-error"
+                                    required>
+
+                            <button
+                                    id="password-toggle"
+                                    class="password-toggle"
+                                    type="button"
+                                    aria-pressed="false"
+                                    aria-label="Mostrar contraseña">
+                                Ver
+                            </button>
+                        </div>
+
+                        <p id="password-error" class="field-error" hidden>
+                            Ingresa tu contraseña.
+                        </p>
+                    </div>
+
+                    <label class="auth-checkbox">
+                        <input id="remember-me" name="remember-me" type="checkbox">
+                        <span>Mantener la sesión abierta</span>
+                    </label>
+
+                    <p
+                            id="form-error"
+                            class="auth-alert auth-alert--error"
+                            role="alert"
+                            hidden>
+                        Completa los campos marcados para continuar.
+                    </p>
+
+                    <button type="submit" class="auth-submit">
+                        <span>Acceder al panel</span>
+                        <span aria-hidden="true">→</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script
+        th:src="@{/assets/js/login.js}"
+        src="/assets/js/login.js"
+        defer>
+</script>
+
+</body>
+</html>

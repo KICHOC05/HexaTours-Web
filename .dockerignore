@@ -1,0 +1,20 @@
+# Build context limpio y sin secretos
+target/
+.git/
+.gitattributes
+.gitignore
+
+# Credenciales locales — nunca dentro del contexto ni de la imagen
+.env
+.env.*
+!.env.example
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+
+# Docs y sistema
+*.md
+Dockerfile
+.dockerignore

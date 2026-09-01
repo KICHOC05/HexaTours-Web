@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <th:block th:replace="~{fragments/head :: common-head}"></th:block>
+    <title th:text="${accion == 'editar'} ? 'Editar Paquete' : 'Nuevo Paquete'">Paquete — HexaTours</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Italiana&family=DM+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/assets/css/admin.css}">
+</head>
+<body>
+
+<div class="admin-layout">
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <div th:replace="~{admin/fragments/sidebar :: sidebar(${activePage}, ${usuario})}"></div>
+
+    <div class="admin-main">
+
+        <div th:replace="~{admin/fragments/topbar :: topbar(${accion == 'editar'} ? 'Editar Paquete' : 'Nuevo Paquete', 'Formulario de paquete turístico.')}"></div>
+
+        <div class="admin-content">
+
+            <div th:replace="~{admin/fragments/alerts :: alerts}"></div>
+
+            <div class="admin-form-card">
+                <div class="admin-form-header">
+                    <h3 th:text="${accion == 'editar'} ? 'Editar paquete' : 'Crear nuevo paquete'">Formulario</h3>
+                    <p class="form-page-title" th:if="${accion == 'crear'}">Completa los datos para publicar un nuevo paquete turístico.</p>
+                    <p class="form-page-title" th:if="${accion == 'editar'}" th:text="'Editando: ' + ${paquete.nombre}"></p>
+                </div>
+                <div class="admin-form-body">
+
+                    <form th:action="${accion == 'editar'}
+                            ? @{/dashboard/paquetes/{id}/editar(id=${paquete.id})}
+                            : @{/dashboard/paquetes/nuevo}"
+                          th:object="${paquete}"
+                          method="post" enctype="multipart/form-data">
+
+                        <input type="hidden" th:field="*{id}">
+
+                        <div class="admin-alert admin-alert-error" th:if="${#fields.hasGlobalErrors()}">
+                            <p th:each="error : ${#fields.globalErrors()}" th:text="${error}">No fue posible guardar el paquete.</p>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nombre">Nombre *</label>
+                                <input type="text" th:field="*{nombre}" required minlength="3" maxlength="100" placeholder="Nombre del paquete"
+                                       th:classappend="${#fields.hasErrors('nombre')} ? 'is-invalid'">
+                                <p class="form-field-error" th:errors="*{nombre}"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="destino">Destino *</label>
+                                <input type="text" th:field="*{destino}" required maxlength="100" placeholder="Ej: Quintana Roo"
+                                       th:classappend="${#fields.hasErrors('destino')} ? 'is-invalid'">
+                                <p class="form-field-error" th:errors="*{destino}"></p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="descripcion">Descripción *</label>
+                            <textarea th:field="*{descripcion}" id="descripcion" required minlength="10" maxlength="5000" placeholder="Descripción breve del paquete"
+                                      th:classappend="${#fields.hasErrors('descripcion')} ? 'is-invalid'"></textarea>
+                            <p class="form-field-error" th:errors="*{descripcion}"></p>
+                            <p class="form-field-counter" id="descripcion-counter">0 / 5000 caracteres</p>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="categoria">Categoría *</label>
+                                <input type="text" th:field="*{categoria}" required maxlength="100" placeholder="Ej: Leisure, Grupos de Lujo"
+                                       th:classappend="${#fields.hasErrors('categoria')} ? 'is-invalid'">
+                                <p class="form-field-error" th:errors="*{categoria}"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="badges">Badges</label>
+                                <input type="text" th:field="*{badges}" maxlength="200" placeholder="Ej: Todo incluido, Oferta, Viaje grupal"
+                                       th:classappend="${#fields.hasErrors('badges')} ? 'is-invalid'">
+                                <p class="form-help">Máximo 6 badges, separados por comas.</p>
+                                <p class="form-field-error" th:errors="*{badges}"></p>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="precio">Precio (MXN)</label>
+                                <input type="number" th:field="*{precio}" step="0.01" min="0" max="99999999.99" placeholder="Ej: 12500.00"
+                                       th:classappend="${#fields.hasErrors('precio')} ? 'is-invalid'">
+                                <p class="form-help">Déjalo vacío para mostrar "Consultar precio".</p>
+                                <p class="form-field-error" th:errors="*{precio}"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="orden">Orden *</label>
+                                <input type="number" th:field="*{orden}" required min="1" max="9999" step="1" inputmode="numeric"
+                                       autocomplete="off"
+                                       th:classappend="${#fields.hasErrors('orden')} ? 'is-invalid'">
+                                <p class="form-help">El 1 aparece primero en el index. Cada paquete debe tener un número diferente.</p>
+                                <p class="form-field-error" th:errors="*{orden}"></p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="waMensaje">Mensaje WhatsApp</label>
+                            <input type="text" th:field="*{waMensaje}" maxlength="300" placeholder="Mensaje para WhatsApp"
+                                   th:classappend="${#fields.hasErrors('waMensaje')} ? 'is-invalid'">
+                            <p class="form-help">Este mensaje se usará al consultar el paquete. Si lo dejas vacío, se usará uno predeterminado.</p>
+                            <p class="form-field-error" th:errors="*{waMensaje}"></p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="imagen" th:text="${accion == 'crear'} ? 'Imagen *' : 'Imagen del paquete'">Imagen</label>
+
+                            <div class="package-image-editor"
+                                 th:classappend="${#fields.hasErrors('imagen')} ? 'is-invalid'">
+                                <div class="package-image-preview">
+                                    <img id="package-image-preview"
+                                         th:src="${paquete.imagenUrl}"
+                                         th:hidden="${paquete.imagenUrl == null}"
+                                         alt="Vista previa de la imagen del paquete">
+
+                                    <div id="package-image-placeholder"
+                                         class="package-image-placeholder"
+                                         th:hidden="${paquete.imagenUrl != null}">
+                                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                                            <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                                            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                            <path d="m21 15-5-5L5 21"></path>
+                                        </svg>
+                                        <span>Sin imagen seleccionada</span>
+                                    </div>
+
+                                    <span class="package-image-preview-label">Vista previa</span>
+                                </div>
+
+                                <div class="package-image-controls">
+                                    <div>
+                                        <strong id="package-image-name"
+                                                th:text="${paquete.imagenUrl != null ? 'Imagen actual del paquete' : 'Selecciona una imagen'}">
+                                            Selecciona una imagen
+                                        </strong>
+                                        <p id="package-image-meta">
+                                            La imagen se mostrará con recorte vertical en las tarjetas del index.
+                                        </p>
+                                    </div>
+
+                                    <input type="file"
+                                           th:field="*{imagen}"
+                                           class="package-image-input"
+                                           accept=".jpg,.jpeg,.png,.webp,.gif,image/jpeg,image/png,image/webp,image/gif">
+
+                                    <div class="package-image-actions">
+                                        <label for="imagen" class="btn btn-primary"
+                                               th:text="${accion == 'editar'} ? 'Cambiar imagen' : 'Elegir imagen'">
+                                            Elegir imagen
+                                        </label>
+                                        <button id="package-image-reset"
+                                                type="button"
+                                                class="btn btn-secondary"
+                                                hidden>
+                                            Cancelar cambio
+                                        </button>
+                                    </div>
+
+                                    <p id="package-image-client-error"
+                                       class="form-field-error"
+                                       role="alert"
+                                       hidden></p>
+                                    <p class="form-help">JPG, PNG, WebP o GIF. Tamaño máximo: 10 MB.</p>
+                                </div>
+                            </div>
+
+                            <p class="form-field-error" th:errors="*{imagen}"></p>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input type="checkbox" th:field="*{activo}">
+                                <label for="activo">Activo</label>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary" th:text="${accion == 'editar'} ? 'Guardar cambios' : 'Crear paquete'">Guardar</button>
+                            <a th:href="@{/dashboard/paquetes}" class="btn btn-secondary">Cancelar</a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        var toggle = document.getElementById('sidebarToggle');
+        var sidebar = document.getElementById('adminSidebar');
+        var overlay = document.getElementById('sidebarOverlay');
+        var ordenInput = document.getElementById('orden');
+        var imageInput = document.getElementById('imagen');
+        var imagePreview = document.getElementById('package-image-preview');
+        var imagePlaceholder = document.getElementById('package-image-placeholder');
+        var imageName = document.getElementById('package-image-name');
+        var imageMeta = document.getElementById('package-image-meta');
+        var imageReset = document.getElementById('package-image-reset');
+        var imageError = document.getElementById('package-image-client-error');
+        var currentImageSrc = imagePreview ? (imagePreview.getAttribute('src') || '') : '';
+        var previewObjectUrl = null;
+        if (toggle) toggle.addEventListener('click', function() { sidebar.classList.toggle('open'); overlay.classList.toggle('show'); });
+        if (overlay) overlay.addEventListener('click', function() { sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+        if (ordenInput) {
+            ordenInput.addEventListener('keydown', function(event) {
+                if (['-', '+', 'e', 'E', '.', ','].includes(event.key)) {
+                    event.preventDefault();
+                }
+            });
+            ordenInput.addEventListener('input', function() {
+                var soloDigitos = this.value.replace(/\D/g, '');
+                this.value = soloDigitos !== '' && Number(soloDigitos) < 1
+                    ? '1'
+                    : soloDigitos;
+            });
+        }
+        if (imageInput && imagePreview && imagePlaceholder) {
+            var allowedImageTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+
+            function revokePreviewUrl() {
+                if (previewObjectUrl) {
+                    URL.revokeObjectURL(previewObjectUrl);
+                    previewObjectUrl = null;
+                }
+            }
+
+            function restoreCurrentImage() {
+                revokePreviewUrl();
+                imageInput.value = '';
+                imageInput.setCustomValidity('');
+                imageError.hidden = true;
+                imageError.textContent = '';
+                imageReset.hidden = true;
+
+                if (currentImageSrc) {
+                    imagePreview.src = currentImageSrc;
+                    imagePreview.hidden = false;
+                    imagePlaceholder.hidden = true;
+                    imageName.textContent = 'Imagen actual del paquete';
+                } else {
+                    imagePreview.removeAttribute('src');
+                    imagePreview.hidden = true;
+                    imagePlaceholder.hidden = false;
+                    imageName.textContent = 'Selecciona una imagen';
+                }
+                imageMeta.textContent = 'La imagen se mostrará con recorte vertical en las tarjetas del index.';
+            }
+
+            imageInput.addEventListener('change', function() {
+                var file = this.files && this.files[0];
+                if (!file) {
+                    restoreCurrentImage();
+                    return;
+                }
+
+                var validationMessage = '';
+                if (!allowedImageTypes.includes(file.type)) {
+                    validationMessage = 'Selecciona una imagen JPG, PNG, WebP o GIF.';
+                } else if (file.size > 10 * 1024 * 1024) {
+                    validationMessage = 'La imagen no debe superar 10 MB.';
+                }
+
+                this.setCustomValidity(validationMessage);
+                imageError.textContent = validationMessage;
+                imageError.hidden = validationMessage === '';
+                imageReset.hidden = false;
+
+                if (validationMessage) {
+                    return;
+                }
+
+                revokePreviewUrl();
+                previewObjectUrl = URL.createObjectURL(file);
+                imagePreview.src = previewObjectUrl;
+                imagePreview.hidden = false;
+                imagePlaceholder.hidden = true;
+                imageName.textContent = file.name;
+                imageMeta.textContent = (file.size / 1024 / 1024).toFixed(2) + ' MB · Nueva imagen seleccionada';
+            });
+
+            imageReset.addEventListener('click', restoreCurrentImage);
+            window.addEventListener('beforeunload', revokePreviewUrl);
+        }
+    })();
+
+    (function() {
+        const textarea = document.getElementById('descripcion');
+        const counter = document.getElementById('descripcion-counter');
+        const max = 5000;
+
+        if (!textarea || !counter) {
+            return;
+        }
+
+        function update() {
+            const length = textarea.value.length;
+            counter.textContent = length + ' / ' + max + ' caracteres';
+            counter.classList.toggle('is-limit', length >= max);
+        }
+
+        textarea.addEventListener('input', update);
+        update();
+    })();
+</script>
+
+</body>
+</html>

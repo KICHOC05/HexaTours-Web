@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!-- SIDEBAR FRAGMENT -->
+<aside th:fragment="sidebar(activePage, usuario)" class="admin-sidebar" id="adminSidebar">
+
+    <div class="sidebar-header">
+        <a th:href="@{/dashboard}" class="sidebar-brand">
+            <img th:src="@{/assets/images/hexatours_transparente.png}" alt="HexaTours" class="sidebar-logo">
+            <div class="sidebar-brand-text">
+                <span class="sidebar-logo-text">Hexa Tours</span>
+                <span class="sidebar-logo-sub">PANEL ADMINISTRATIVO</span>
+            </div>
+        </a>
+    </div>
+
+    <nav class="sidebar-nav">
+
+        <div class="nav-section">
+            <p class="nav-section-title">PRINCIPAL</p>
+            <a th:href="@{/dashboard}"
+               th:classappend="${activePage == 'inicio'} ? ' active'"
+               class="nav-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                <span>Inicio</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <p class="nav-section-title">GESTIÓN</p>
+            <a th:href="@{/dashboard/usuarios}"
+               th:classappend="${activePage == 'usuarios'} ? ' active'"
+               class="nav-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span>Usuarios</span>
+            </a>
+            <a th:href="@{/dashboard/paquetes}"
+               th:classappend="${activePage == 'paquetes'} ? ' active'"
+               class="nav-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="18" height="18" x="3" y="7" rx="2"/><path d="M12 7v4"/><path d="M12 11h.01"/></svg>
+                <span>Paquetes</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <p class="nav-section-title">SISTEMA</p>
+            <a th:href="@{/}" target="_blank" class="nav-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                <span>Ver sitio</span>
+            </a>
+        </div>
+
+    </nav>
+
+    <div class="sidebar-user" th:if="${usuario != null}">
+        <div class="sidebar-user-top">
+            <div class="sidebar-user-avatar">
+                <span th:text="${#strings.substring(usuario.nombre, 0, 1)}">C</span>
+            </div>
+            <div class="sidebar-user-info">
+                <p class="sidebar-user-name" th:text="${usuario.nombre}">Usuario</p>
+                <p class="sidebar-user-role" th:text="${#strings.replace(usuario.rol, 'ROLE_', '')}">ADMIN</p>
+            </div>
+        </div>
+        <form th:action="@{/logout}" method="post" class="sidebar-logout-form">
+            <button type="submit" class="sidebar-logout-btn" title="Cerrar sesión">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+                <span>Cerrar sesión</span>
+            </button>
+        </form>
+    </div>
+
+</aside>
+
+</html>
