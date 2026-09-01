@@ -21,7 +21,7 @@ public class PaqueteForm {
     private String nombre;
 
     @NotBlank(message = "La descripción es obligatoria.")
-    @Size(min = 10, max = 500, message = "La descripción debe tener entre 10 y 500 caracteres.")
+    @Size(min = 10, max = 5000, message = "La descripción debe tener entre 10 y 5000 caracteres.")
     private String descripcion;
 
     @NotBlank(message = "El destino es obligatorio.")

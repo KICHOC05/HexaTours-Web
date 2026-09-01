@@ -600,7 +600,9 @@
                                 data-trip-id=${experiencia.id},
                                 data-title=${experiencia.nombre},
                                 data-description=${experiencia.descripcion},
-                                data-price=${experiencia.precio},
+                                data-price=${experiencia.precio != null
+                                    ? #numbers.formatInteger(experiencia.precio, 0, 'COMMA')
+                                    : ''},
                                 data-destination=${experiencia.destino},
                                 data-badges=${experiencia.badges},
                                 data-image=${experiencia.imagenUrl},
@@ -639,7 +641,7 @@
                                 <span
                                         class="trip-price"
                                         th:text="${experiencia.precio != null
-                                            ? 'Desde $' + #numbers.formatDecimal(experiencia.precio, 1, 2, 'COMMA') + ' MXN'
+                                            ? 'Desde $' + #numbers.formatInteger(experiencia.precio, 0, 'COMMA') + ' MXN'
                                             : 'Consultar precio'}">
 
                                     Consultar precio

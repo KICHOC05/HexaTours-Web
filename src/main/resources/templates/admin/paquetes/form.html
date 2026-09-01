@@ -62,9 +62,10 @@
 
                         <div class="form-group">
                             <label for="descripcion">Descripción *</label>
-                            <textarea th:field="*{descripcion}" required minlength="10" maxlength="500" placeholder="Descripción breve del paquete"
+                            <textarea th:field="*{descripcion}" id="descripcion" required minlength="10" maxlength="5000" placeholder="Descripción breve del paquete"
                                       th:classappend="${#fields.hasErrors('descripcion')} ? 'is-invalid'"></textarea>
                             <p class="form-field-error" th:errors="*{descripcion}"></p>
+                            <p class="form-field-counter" id="descripcion-counter">0 / 5000 caracteres</p>
                         </div>
 
                         <div class="form-row">
@@ -291,6 +292,25 @@
             imageReset.addEventListener('click', restoreCurrentImage);
             window.addEventListener('beforeunload', revokePreviewUrl);
         }
+    })();
+
+    (function() {
+        const textarea = document.getElementById('descripcion');
+        const counter = document.getElementById('descripcion-counter');
+        const max = 5000;
+
+        if (!textarea || !counter) {
+            return;
+        }
+
+        function update() {
+            const length = textarea.value.length;
+            counter.textContent = length + ' / ' + max + ' caracteres';
+            counter.classList.toggle('is-limit', length >= max);
+        }
+
+        textarea.addEventListener('input', update);
+        update();
     })();
 </script>
 

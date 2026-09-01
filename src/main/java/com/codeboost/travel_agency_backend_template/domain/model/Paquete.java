@@ -20,8 +20,8 @@ public class Paquete {
     @Column(nullable = false, length = 100)
     private String nombre;
 
-    @Size(max = 500)
-    @Column(length = 500)
+    @Size(max = 5000)
+    @Column(length = 5000)
     private String descripcion;
 
     // Icono FontAwesome: "fas fa-map-marked-alt"

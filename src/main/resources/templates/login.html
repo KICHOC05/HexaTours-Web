@@ -112,13 +112,7 @@
             </div>
 
             <div class="login-card">
-                <p class="login-kicker login-kicker--dark">Acceso restringido</p>
-
                 <h2 id="login-title">Panel administrativo</h2>
-
-                <p class="login-intro">
-                    Uso exclusivo para personal autorizado de Hexa Tours.
-                </p>
 
                 <div
                         th:if="${error}"
@@ -143,7 +137,7 @@
                         novalidate>
 
                     <div class="auth-field">
-                        <label for="email" class="auth-label">Correo administrativo</label>
+                        <label for="email" class="auth-label">Correo</label>
 
                         <input
                                 id="email"
@@ -207,11 +201,6 @@
                         <span aria-hidden="true">→</span>
                     </button>
                 </form>
-
-                <p class="login-security-note">
-                    <span aria-hidden="true">◆</span>
-                    Solo personal autorizado puede acceder.
-                </p>
             </div>
         </div>
     </section>
