@@ -603,7 +603,7 @@
                                 data-price=${experiencia.precio != null
                                     ? #numbers.formatInteger(experiencia.precio, 0, 'COMMA')
                                     : ''},
-                                data-destination=${experiencia.destino},
+                                data-countries=${experiencia.destino},
                                 data-cities=${experiencia.ciudades},
                                 data-badges=${experiencia.badges},
                                 data-image=${experiencia.imagenUrl},
@@ -636,7 +636,7 @@
                                 <span
                                         class="trip-sub"
                                         th:text="${experiencia.destino}">
-                                    Destino
+                                    Países
                                 </span>
 
                                 <span

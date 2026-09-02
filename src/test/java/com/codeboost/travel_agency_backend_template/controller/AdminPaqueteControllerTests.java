@@ -30,6 +30,9 @@ class AdminPaqueteControllerTests {
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/paquetes/form"))
                 .andExpect(model().attributeExists("paquete"))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Países *")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Ciudades")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("name=\"ciudades\"")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("package-image-preview")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Elegir imagen")));
     }
