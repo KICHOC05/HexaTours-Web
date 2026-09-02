@@ -560,10 +560,10 @@ function initTripModal() {
     const badges =
         document.getElementById('modal-badges');
 
-    const destination =
+    const countries =
         document.getElementById('modal-countries');
 
-    const location =
+    const cities =
         document.getElementById('modal-cities');
 
     const description =
@@ -587,8 +587,8 @@ function initTripModal() {
         const rawPrice =
             trigger.dataset.price || '';
 
-        const tripDestination =
-            trigger.dataset.destination ||
+        const tripCountries =
+            trigger.dataset.countries ||
             'Consultar con un asesor';
 
         const tripCities =
@@ -629,10 +629,10 @@ function initTripModal() {
             badges.hidden = tripBadges.length === 0;
         }
 
-        destination.textContent =
-            tripDestination;
+        countries.textContent =
+            tripCountries;
 
-        location.textContent =
+        cities.textContent =
             tripCities;
 
         description.textContent =
