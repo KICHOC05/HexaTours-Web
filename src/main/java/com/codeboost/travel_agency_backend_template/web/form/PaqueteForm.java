@@ -24,9 +24,12 @@ public class PaqueteForm {
     @Size(min = 10, max = 5000, message = "La descripción debe tener entre 10 y 5000 caracteres.")
     private String descripcion;
 
-    @NotBlank(message = "El destino es obligatorio.")
-    @Size(max = 100, message = "El destino no debe superar 100 caracteres.")
+    @NotBlank(message = "Los países son obligatorios.")
+    @Size(max = 100, message = "Los países no deben superar 100 caracteres.")
     private String destino;
+
+    @Size(max = 300, message = "Las ciudades no deben superar 300 caracteres.")
+    private String ciudades;
 
     @NotBlank(message = "La categoría es obligatoria.")
     @Size(max = 100, message = "La categoría no debe superar 100 caracteres.")
@@ -57,6 +60,7 @@ public class PaqueteForm {
         form.setNombre(paquete.getNombre());
         form.setDescripcion(paquete.getDescripcion());
         form.setDestino(paquete.getDestino());
+        form.setCiudades(paquete.getCiudades());
         form.setCategoria(paquete.getCategoria());
         form.setBadges(paquete.getBadges());
         form.setPrecio(paquete.getPrecio());
@@ -72,6 +76,7 @@ public class PaqueteForm {
         paquete.setNombre(nombre);
         paquete.setDescripcion(descripcion);
         paquete.setDestino(destino);
+        paquete.setCiudades(ciudades);
         paquete.setCategoria(categoria);
         paquete.setBadges(badges);
         paquete.setPrecio(precio);
@@ -89,6 +94,8 @@ public class PaqueteForm {
     public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
     public String getDestino() { return destino; }
     public void setDestino(String destino) { this.destino = destino; }
+    public String getCiudades() { return ciudades; }
+    public void setCiudades(String ciudades) { this.ciudades = ciudades; }
     public String getCategoria() { return categoria; }
     public void setCategoria(String categoria) { this.categoria = categoria; }
     public String getBadges() { return badges; }

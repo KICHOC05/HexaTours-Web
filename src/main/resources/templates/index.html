@@ -604,6 +604,7 @@
                                     ? #numbers.formatInteger(experiencia.precio, 0, 'COMMA')
                                     : ''},
                                 data-destination=${experiencia.destino},
+                                data-cities=${experiencia.ciudades},
                                 data-badges=${experiencia.badges},
                                 data-image=${experiencia.imagenUrl},
                                 data-wa-message=${experiencia.waMensaje},
@@ -980,12 +981,12 @@
             <dl class="mt-8 space-y-5">
 
                 <div>
-                    <dt>Destino</dt>
+                    <dt>Países</dt>
                     <dd id="modal-countries"></dd>
                 </div>
 
                 <div>
-                    <dt>Ubicación</dt>
+                    <dt>Ciudades</dt>
                     <dd id="modal-cities"></dd>
                 </div>
 

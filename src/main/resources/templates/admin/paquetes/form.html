@@ -53,11 +53,19 @@
                                 <p class="form-field-error" th:errors="*{nombre}"></p>
                             </div>
                             <div class="form-group">
-                                <label for="destino">Destino *</label>
-                                <input type="text" th:field="*{destino}" required maxlength="100" placeholder="Ej: Quintana Roo"
+                                <label for="destino">Países *</label>
+                                <input type="text" th:field="*{destino}" required maxlength="100" placeholder="Ej: México, Guatemala"
                                        th:classappend="${#fields.hasErrors('destino')} ? 'is-invalid'">
                                 <p class="form-field-error" th:errors="*{destino}"></p>
                             </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ciudades">Ciudades</label>
+                            <input type="text" th:field="*{ciudades}" maxlength="300" placeholder="Ej: Cancún, Playa del Carmen, Tulum"
+                                   th:classappend="${#fields.hasErrors('ciudades')} ? 'is-invalid'">
+                            <p class="form-help">Separa varias ciudades con comas.</p>
+                            <p class="form-field-error" th:errors="*{ciudades}"></p>
                         </div>
 
                         <div class="form-group">
@@ -153,6 +161,7 @@
 
                                     <div class="package-image-actions">
                                         <label for="imagen" class="btn btn-primary"
+                                               th:classappend="${accion == 'editar'} ? ' btn-image-change' : ''"
                                                th:text="${accion == 'editar'} ? 'Cambiar imagen' : 'Elegir imagen'">
                                             Elegir imagen
                                         </label>

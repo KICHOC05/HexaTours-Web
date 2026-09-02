@@ -47,7 +47,8 @@
                             <tr>
                                 <th>Imagen</th>
                                 <th>Nombre</th>
-                                <th class="hide-mobile">Destino</th>
+                                <th class="hide-mobile">Países</th>
+                                <th class="hide-mobile">Ciudades</th>
                                 <th class="hide-mobile">Categoría</th>
                                 <th>Orden</th>
                                 <th>Estado</th>
@@ -65,7 +66,8 @@
                                     </div>
                                 </td>
                                 <td th:text="${p.nombre}">Nombre</td>
-                                <td class="hide-mobile" th:text="${p.destino}">Destino</td>
+                                <td class="hide-mobile" th:text="${p.destino}">Países</td>
+                                <td class="hide-mobile" th:text="${p.ciudades != null and !p.ciudades.isBlank() ? p.ciudades : 'Sin definir'}">Ciudades</td>
                                 <td class="hide-mobile" th:text="${p.categoria}">Categoría</td>
                                 <td th:text="${p.orden > 0 ? p.orden : 'Sin definir'}">1</td>
                                 <td>

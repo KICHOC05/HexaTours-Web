@@ -1133,6 +1133,18 @@ body { font-family: var(--font-body); color: var(--hexa-text); -webkit-font-smoo
     cursor: pointer;
 }
 
+.package-image-actions .btn-image-change {
+    background: var(--hexa-turquoise);
+    border-color: var(--hexa-turquoise);
+    color: var(--hexa-white);
+}
+
+.package-image-actions .btn-image-change:hover {
+    background: var(--hexa-green-dark);
+    border-color: var(--hexa-green-dark);
+    box-shadow: 0 8px 20px rgba(var(--hexa-turquoise-rgb), .22);
+}
+
 .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;

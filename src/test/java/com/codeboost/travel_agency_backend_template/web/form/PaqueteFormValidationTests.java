@@ -40,11 +40,33 @@ class PaqueteFormValidationTests {
                 .contains("nombre", "descripcion", "destino", "categoria", "orden", "precio");
     }
 
+    @Test
+    void conservaPaisesYCiudadesAlConvertirElFormulario() {
+        PaqueteForm form = formularioValido();
+
+        var paquete = form.aPaquete();
+        PaqueteForm reconstruido = PaqueteForm.desde(paquete);
+
+        assertThat(reconstruido.getDestino()).isEqualTo("México");
+        assertThat(reconstruido.getCiudades()).isEqualTo("Cancún, Playa del Carmen, Tulum");
+    }
+
+    @Test
+    void rechazaUnaListaDeCiudadesDemasiadoLarga() {
+        PaqueteForm form = formularioValido();
+        form.setCiudades("a".repeat(301));
+
+        assertThat(validator.validate(form))
+                .extracting(error -> error.getPropertyPath().toString())
+                .contains("ciudades");
+    }
+
     private PaqueteForm formularioValido() {
         PaqueteForm form = new PaqueteForm();
         form.setNombre("Caribe mexicano");
         form.setDescripcion("Paquete completo con hospedaje y traslados.");
-        form.setDestino("Quintana Roo");
+        form.setDestino("México");
+        form.setCiudades("Cancún, Playa del Carmen, Tulum");
         form.setCategoria("Playa");
         form.setBadges("Todo incluido,Viaje grupal");
         form.setPrecio(new BigDecimal("12500.00"));

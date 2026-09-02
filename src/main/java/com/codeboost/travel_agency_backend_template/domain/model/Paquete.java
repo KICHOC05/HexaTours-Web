@@ -58,9 +58,13 @@ public class Paquete {
 
     // Campos a AGREGAR en Paquete.java:
 
-// "Quintana Roo", "Suiza", "Italia", etc.
+// Países incluidos en el paquete.
 @Column(length = 100)
 private String destino;
+
+// Ciudades incluidas en el paquete, separadas por comas.
+@Column(length = 300)
+private String ciudades;
 
 // "Leisure", "Grupos de Lujo", "Corporativo · Team Building"
 @Column(length = 100)
@@ -116,6 +120,9 @@ private boolean featured = false;
 
     public String getDestino()               { return destino; }
     public void setDestino(String d)         { this.destino = d; }
+
+    public String getCiudades()              { return ciudades; }
+    public void setCiudades(String c)         { this.ciudades = c; }
 
     public String getCategoria()             { return categoria; }
     public void setCategoria(String c)       { this.categoria = c; }
