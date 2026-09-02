@@ -591,6 +591,10 @@ function initTripModal() {
             trigger.dataset.destination ||
             'Consultar con un asesor';
 
+        const tripCities =
+            trigger.dataset.cities ||
+            'Consultar con un asesor';
+
         const configuredMessage =
             trigger.dataset.waMessage?.trim();
 
@@ -629,7 +633,7 @@ function initTripModal() {
             tripDestination;
 
         location.textContent =
-            tripDestination;
+            tripCities;
 
         description.textContent =
             trigger.dataset.description ||

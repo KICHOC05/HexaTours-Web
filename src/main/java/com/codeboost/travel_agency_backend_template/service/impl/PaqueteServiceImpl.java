@@ -90,6 +90,7 @@ public class PaqueteServiceImpl implements PaqueteService {
         existing.setPrecio(datos.getPrecio());
         existing.setActivo(datos.isActivo());
         existing.setDestino(datos.getDestino());
+        existing.setCiudades(datos.getCiudades());
         existing.setCategoria(datos.getCategoria());
         existing.setWaMensaje(datos.getWaMensaje());
         existing.setFeatured(false);
@@ -195,6 +196,7 @@ public class PaqueteServiceImpl implements PaqueteService {
         paquete.setNombre(limpiar(paquete.getNombre()));
         paquete.setDescripcion(limpiar(paquete.getDescripcion()));
         paquete.setDestino(limpiar(paquete.getDestino()));
+        paquete.setCiudades(limpiarOpcional(paquete.getCiudades()));
         paquete.setCategoria(limpiar(paquete.getCategoria()));
         paquete.setWaMensaje(limpiarOpcional(paquete.getWaMensaje()));
         paquete.setBadges(normalizarBadges(paquete.getBadges()));

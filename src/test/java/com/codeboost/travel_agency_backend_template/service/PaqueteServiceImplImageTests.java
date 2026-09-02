@@ -14,6 +14,7 @@ import org.springframework.mock.web.MockMultipartFile;
 import java.util.Map;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.isNull;
@@ -44,8 +45,10 @@ class PaqueteServiceImplImageTests {
         existente.setId(10L);
         existente.setImagenUrl("https://cdn.example/old.jpg");
         existente.setImagenPublicId("old-id");
+        existente.setCiudades("Ciudad anterior");
 
         datos = paqueteValido();
+        datos.setCiudades("Cancún, Playa del Carmen, Tulum");
         imagen = new MockMultipartFile(
                 "imagen", "nueva.jpg", "image/jpeg",
                 new byte[] {(byte) 0xFF, (byte) 0xD8, (byte) 0xFF});
@@ -68,6 +71,7 @@ class PaqueteServiceImplImageTests {
         orden.verify(cloudinaryService).upload(any(), isNull());
         orden.verify(paqueteRepository).saveAndFlush(any(Paquete.class));
         orden.verify(cloudinaryService).delete("old-id");
+        assertThat(existente.getCiudades()).isEqualTo("Cancún, Playa del Carmen, Tulum");
     }
 
     @Test
@@ -87,6 +91,7 @@ class PaqueteServiceImplImageTests {
         paquete.setNombre("Viaje internacional");
         paquete.setDescripcion("Descripción completa del paquete turístico.");
         paquete.setDestino("Destino");
+        paquete.setCiudades("Ciudad");
         paquete.setCategoria("Internacional");
         paquete.setOrden(1);
         paquete.setActivo(true);
