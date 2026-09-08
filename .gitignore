@@ -42,3 +42,6 @@ src/main/java/com/codeboost/travel_agency_backend_template/config/LocalDataSeede
 
 ### Local session artifacts ###
 cookies*.txt
+
+### Frontend build dependencies ###
+node_modules/
